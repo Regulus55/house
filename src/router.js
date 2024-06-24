@@ -1,10 +1,14 @@
 import {createBrowserRouter} from "react-router-dom";
-import {ForgotPassword, Login, Signup} from "./components";
+import {ForgotPassword, Login, Signup, Main} from "./components";
 
 
 
 
 const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Main/>,
+    },
     {
         path: '/login',
         element: <Login/>
