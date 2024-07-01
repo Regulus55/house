@@ -1,19 +1,30 @@
 import React, {useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import {Link} from "react-router-dom";
-
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
-        const userInput = {
-            email: email,
-            password: password
+
+        try {
+            const userInput = {
+                email: email,
+                password: password
+            }
+            console.log(userInput)
+            const url = 'http://localhost:7070/api/auth/login'
+            const {data, status} = await axios.post(url, userInput)
+            if(status ===200){
+                navigate('/profile')
+            }
+        } catch (err) {
+            console.log('---', err)
         }
-        console.log(userInput)
     }
 
 
@@ -60,8 +71,14 @@ const Login = () => {
 
                         <Row>
                             <Col/>
-                            <Col xs={3} style={{width:'100%',paddingTop:'50px',borderTop:'1px solid black', display: 'flex',justifyContent:'center'}}>
-                             비회원으로 주문 조회하기
+                            <Col xs={3} style={{
+                                width: '100%',
+                                paddingTop: '50px',
+                                borderTop: '1px solid black',
+                                display: 'flex',
+                                justifyContent: 'center'
+                            }}>
+                                비회원으로 주문 조회하기
                             </Col>
                             <Col/>
                         </Row>

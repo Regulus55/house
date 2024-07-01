@@ -5,18 +5,36 @@ import axios from "axios";
 
 const Signup = () => {
     const navigate = useNavigate()
-    const [username, setUsername] = React.useState('');
-    const [nickname, setNickname] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [passwordcheck, setPasswordcheck] = React.useState('');
-    const [phonenumber, setPhonenumber] = React.useState('')
-    const [check1, setCheck1] = React.useState(false)
-    const [check2, setCheck2] = React.useState(false)
-    const [check3, setCheck3] = React.useState(false)
-    const [check4, setCheck4] = React.useState(false)
-    const [check5, setCheck5] = React.useState(false)
+    const [username, setUsername] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordcheck, setPasswordcheck] = useState('');
+    const [phonenumber, setPhonenumber] = useState('')
+    const [check1, setCheck1] = useState(false)
+    const [check2, setCheck2] = useState(false)
+    const [check3, setCheck3] = useState(false)
+    const [check4, setCheck4] = useState(false)
+    const [check5, setCheck5] = useState(false)
+    const [emailDisable, setEmailDisable] = useState(false)
+    const [submitDisable, setSubmitDisable] = useState(false)
 // 이 항목들은 스웨거 api 의 리퀘스트 바디에있는 항목들을 참고해서 만듦
+
+    const sendEmailHandler = async (e) => {
+        // ^^이메일 보내는 핸들러,  url이랑 userInput (email) 보낸다,   if 맞으면 메일 확인하라고 알람 보낸다
+        try {
+            const url = 'http://localhost:7070/api/auth/email/send'
+            const userInput = {
+                email: email
+            }
+            const {data, status} = await axios.post(url, userInput)
+            if (status === 201) {
+                alert('please check your email')
+            }
+        } catch (err) {
+            console.log('---', err)
+        }
+    }
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -25,6 +43,9 @@ const Signup = () => {
                 alert("please ckeck password and confirm your password")
                 return
                 // 패스워드 체크했을때 일치않으면 alert 으로 알리고 return 으로 빠져나온다
+            }
+            if (email) {
+                setEmailDisable(true)
             }
             const userInput = {
                 userName: username,
@@ -42,9 +63,9 @@ const Signup = () => {
                 // ^ 스웨거api 의 폼 항목대로 userInput 을 만들었다
             }
             const url = 'http://localhost:7070/api/auth/signup'
-            const {data,status} = await axios.post(url, userInput)
+            const {data, status} = await axios.post(url, userInput)
             // ^axios.post 로 url 과 userInput 을 보낸다, 그리고 밑에 if 항목으로 검사한다
-            if(status === 201){
+            if (status === 201) {
                 navigate('/login')
                 // if 회원가입 성공시 (201) navigate 이용해서 로그인 페이지로 넘어감
             }
@@ -114,12 +135,13 @@ const Signup = () => {
                                 />
                                 {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
                             </div>
-                            <Button className={'mt-3'} style={{
-                                width: '100%',
-                                backgroundColor: '#f7f8fa',
-                                border: '1px solid #c3cacd',
-                                color: '#c3cacd'
-                            }}>이메일 인증하기</Button>
+                            <Button
+                                className={'mt-3'}
+                                disabled={emailDisable}
+                                onClick={sendEmailHandler}
+                            >
+                                이메일 인증하기
+                            </Button>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -194,7 +216,7 @@ const Signup = () => {
                                 </div>
                             ))}</div>
 
-                        <Button style={{background: '#35c5f0', width: '100%', marginBottom: '30px'}} type="submit">
+                        <Button type="submit" disabled={submitDisable}>
                             회원가입하기
                         </Button>
 
