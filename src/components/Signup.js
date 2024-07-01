@@ -19,8 +19,8 @@ const Signup = () => {
     const [check4, setCheck4] = useState(false)
     const [check5, setCheck5] = useState(false)
     const [emailDisable, setEmailDisable] = useState(false)
-    const [submitDisable, setSubmitDisable] = useState(false)
     const [emailCheckEnable, setEmailCheckEnable] = useState(false)
+    const [submitEnable, setSubmitEnable] = useState(true)
 
 // 이 항목들은 스웨거 api 의 리퀘스트 바디에있는 항목들을 참고해서 만듦
 
@@ -53,6 +53,7 @@ const Signup = () => {
             if (status === 201) {
                 alert('code ok')
                 setEmailCheckEnable(false)
+                setSubmitEnable(false)
             }
             // ^^if 정상이면 setEmailEnable 을 false 로 작동시켜 화면에서 안보이게 한다
         } catch (err) {
@@ -122,7 +123,7 @@ const Signup = () => {
 
             <Row>
                 <Col/>
-                <Col xs={4}>
+                <Col xs={6}>
                     <Form onSubmit={submitHandler}>
                         <Form.Group className="mb-3" controlId="formBasicUsername">
                             <Form.Label>유저이름</Form.Label>
@@ -149,7 +150,7 @@ const Signup = () => {
 
                         <Form.Group className="mb-3">
                             <Form.Label>이메일</Form.Label>
-                            <div style={{display: 'flex', flexDirection: 'row'}}>
+                            <div style={{display: 'flex', flexDirection: 'row',fontSize:'1rem'}}>
                                 <Form.Control type="email"
                                               placeholder="이메일"
                                               value={email}
@@ -221,14 +222,14 @@ const Signup = () => {
                             {['checkbox'].map((type) => (
                                 <div key={`default-${type}`} className="mb-3">
 
-                                    <Form.Check style={{marginBottom: '5px'}}
+                                    <Form.Check style={{marginTop:'20px',marginBottom: '5px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'나이약관'}
                                                 label={'14세 이상입니다(필수)'}
                                                 value={check1}
                                                 onChange={(e) => setCheck1(true)}
                                     />
-                                    <Form.Check style={{marginBottom: '5px'}}
+                                    <Form.Check style={{marginBottom: '5px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'이용약관'}
                                                 label={'이용약관(필수)'}
@@ -236,14 +237,14 @@ const Signup = () => {
                                                 onChange={(e) => setCheck2(true)}
                                     />
 
-                                    <Form.Check style={{marginBottom: '5px'}}
+                                    <Form.Check style={{marginBottom: '5px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'개인정보'}
                                                 label={'개인정보수집 및 이용동의(필수)'}
                                                 value={check3}
                                                 onChange={(e) => setCheck3(true)}
                                     />
-                                    <Form.Check style={{marginBottom: '5px'}}
+                                    <Form.Check style={{marginBottom: '5px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'마케팅'}
                                                 label={'개인정보 마케팅 활용 동의(선택)'}
@@ -251,7 +252,7 @@ const Signup = () => {
                                                 onChange={(e) => setCheck4(true)}
                                     />
 
-                                    <Form.Check style={{marginBottom: '5px'}}
+                                    <Form.Check style={{marginBottom: '1px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'이벤트'}
                                                 label={'이벤트, 쿠폰, 특가 알림 메일 및 SMS 등 수신(선택)'}
@@ -263,14 +264,14 @@ const Signup = () => {
                                 </div>
                             ))}</div>
 
-                        <Button type="submit" disabled={submitDisable}>
+                        <Button type="submit" disabled={submitEnable}>
                             회원가입하기
                         </Button>
 
-                        <div style={{display: 'flex', justifyContent: 'center'}}>이미 아이디가 있으신가요?
+                        <div style={{display: 'flex', justifyContent: 'center',marginTop:'30px',marginBottom:'50px',fontSize: '0.9rem'}}><span>이미 아이디가 있으신가요?
                             <Link to={'/login'}
                                   style={{color: 'black', marginLeft: '30px', marginBottom: '70px'}}>로그인</Link>
-                        </div>
+                        </span> </div>
                     </Form>
                 </Col>
                 <Col/>
