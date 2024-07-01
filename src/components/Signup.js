@@ -10,6 +10,8 @@ const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordcheck, setPasswordcheck] = useState('');
+    const [code, setCode] = useState('')
+    // ^^이메일 보낸거 인증하는거
     const [phonenumber, setPhonenumber] = useState('')
     const [check1, setCheck1] = useState(false)
     const [check2, setCheck2] = useState(false)
@@ -18,6 +20,8 @@ const Signup = () => {
     const [check5, setCheck5] = useState(false)
     const [emailDisable, setEmailDisable] = useState(false)
     const [submitDisable, setSubmitDisable] = useState(false)
+    const [emailCheckEnable, setEmailCheckEnable] = useState(false)
+
 // 이 항목들은 스웨거 api 의 리퀘스트 바디에있는 항목들을 참고해서 만듦
 
     const sendEmailHandler = async (e) => {
@@ -30,7 +34,27 @@ const Signup = () => {
             const {data, status} = await axios.post(url, userInput)
             if (status === 201) {
                 alert('please check your email')
+                setEmailCheckEnable(true)
             }
+        } catch (err) {
+            console.log('---', err)
+        }
+    }
+
+    const checkEmailHandler = async (e) => {
+        try {
+            const userInput = {
+                email: email,
+                code: code
+            }
+            // ^^api 에서 요구하는게 email 이랑 code 니까  userInput 에 이메일이랑 코드를 넣는다
+            const url = 'http://localhost:7070/api/auth/email/check'
+            const {data, status} = await axios.post(url, userInput)
+            if (status === 201) {
+                alert('code ok')
+                setEmailCheckEnable(false)
+            }
+            // ^^if 정상이면 setEmailEnable 을 false 로 작동시켜 화면에서 안보이게 한다
         } catch (err) {
             console.log('---', err)
         }
@@ -143,6 +167,29 @@ const Signup = () => {
                                 이메일 인증하기
                             </Button>
                         </Form.Group>
+
+                        {emailCheckEnable ? (
+                            <Form.Group className="mb-3">
+                                <div style={{display: 'flex', flexDirection: 'row'}}>
+                                    <Form.Control type="text"
+                                                  placeholder="Code"
+                                                  value={code}
+                                                  onChange={(e) => {
+                                                      setCode(e.target.value)
+                                                  }}
+                                    />
+                                    {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
+                                </div>
+                                <Button
+                                    className={'mt-3'}
+                                    disabled={emailDisable}
+                                    onClick={checkEmailHandler}
+                                >
+                                    코드 인증하기
+                                </Button>
+                            </Form.Group>
+                        ) : null}
+
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>비밀번호</Form.Label>
