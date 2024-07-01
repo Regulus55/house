@@ -141,12 +141,13 @@ const Signup = () => {
 
                         <Form.Group className="mb-3">
                             <Form.Label>닉네임</Form.Label>
-                            <div style={{color: 'grey', fontSize: '13px'}}>다른 유저와 겹치지 않도록 입력해주세요. (2~20자).</div>
+                            <div style={{color: 'grey', fontSize: '0.75rem'}}>다른 유저와 겹치지 않도록 입력해주세요. (2~20자).</div>
                             <Form.Control type="text"
                                           placeholder="별명 (2~20글자)"
                                           value={nickname}
                                           onChange={(e) => setNickname(e.target.value)}/>
                         </Form.Group>
+
 
                         <Form.Group className="mb-3">
                             <Form.Label>이메일</Form.Label>
@@ -194,7 +195,7 @@ const Signup = () => {
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>비밀번호</Form.Label>
-                            <div style={{color: 'grey', fontSize: '13px'}}>영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</div>
+                            <div style={{color: 'grey', fontSize: '0.75rem'}}>영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</div>
                             <Form.Control type="password"
                                           placeholder="비밀번호"
                                           value={password}

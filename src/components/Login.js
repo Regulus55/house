@@ -19,7 +19,8 @@ const Login = () => {
             console.log(userInput)
             const url = 'http://localhost:7070/api/auth/login'
             const {data, status} = await axios.post(url, userInput)
-            if(status ===200){
+            if (status === 200) {
+                localStorage.setItem('token', data.token)
                 navigate('/profile')
             }
         } catch (err) {
@@ -34,7 +35,7 @@ const Login = () => {
 
             <Row>
                 <Col></Col>
-                <Col xs={3}>
+                <Col xs={6}>
                     <Form onSubmit={submitHandler}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label></Form.Label>
@@ -57,15 +58,25 @@ const Login = () => {
                         <Button className="mb-3" variant="primary" type="submit" style={{width: '100%'}}>
                             로그인
                         </Button>
+
                         <Form.Group className="mb-3">
                             <Link to={'/forgot/password'}> <Button
-                                style={{color: "black", background: "white", border: 'none'}}>비밀번호
+                                style={{
+                                    width: '49%',
+                                    color: "black",
+                                    background: "white",
+                                    border: 'none',
+                                    fontSize: '0.9rem'
+                                }}>비밀번호
                                 찾기</Button></Link>{" "}
+
                             <Link to={'/signup'}> <Button style={{
                                 width: '49%',
                                 color: "black",
                                 background: "white",
-                                border: 'none'
+                                border: 'none',
+                                fontSize: '0.9rem',
+
                             }}>회원가입</Button></Link>
                         </Form.Group>
 
@@ -78,7 +89,7 @@ const Login = () => {
                                 display: 'flex',
                                 justifyContent: 'center'
                             }}>
-                                비회원으로 주문 조회하기
+                                <span>비회원으로 주문 조회하기</span>
                             </Col>
                             <Col/>
                         </Row>
