@@ -28,11 +28,9 @@ const Profile = () => {
         }
     }
 
-    const editProfile = async (e) => {
-        const userInput = {
-
-        }
-    }
+    // const editProfile = async (e) => {
+    //     const userInput = {}
+    // }
 
     useEffect(() => {
         getProfileInfo()
@@ -65,8 +63,14 @@ const Profile = () => {
                                     <Row>내쿠폰</Row>
                                 </Col>
                             </Row>
+
+
                         </Card.Body>
                     </Card>
+
+                    <Link to={'/create/profile'}>
+                        <Button style={{width: '15rem', marginTop: '1rem'}}>개인정보 생성</Button>
+                    </Link>
                 </Col>
 
 
@@ -97,14 +101,14 @@ const Profile = () => {
                                             id={'개인정보'}
                                             label={'개인정보 마케팅 활용 동의'}
                                             value={check4}
-                                            onChange={(e) => setCheck4(true)}
+                                            onChange={(e) => setCheck4(!check4)}
                                         />
 
                                         <Form.Check
                                             id={'이벤트'}
                                             label={'이벤트, 특가 알림 및 SMS 등 수신'}
                                             value={check5}
-                                            onChange={(e) => setCheck5(true)}
+                                            onChange={(e) => setCheck5(!check5)}
                                         />
                                     </div>
                                 ))}
@@ -112,7 +116,7 @@ const Profile = () => {
 
                             </Card.Body>
                         </Card>
-                        <Button variant="primary" className={'mt-3'} style={{width: '100%'}} >프로필 수정</Button>
+                        <Button variant="primary" className={'mt-3'} style={{width: '100%'}}>프로필 수정</Button>
                     </Row>
                 </Col>
                 <Col xs={1}></Col>
