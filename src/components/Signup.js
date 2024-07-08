@@ -97,24 +97,7 @@ const Signup = () => {
         } catch (err) {
             console.log('---', err)
         }
-
-
     }
-
-
-    // const DropEmail = () => {
-    //     return (<Dropdown>
-    //         <Dropdown.Toggle variant="success" id="dropdown-basic" style={{backgroundColor: 'grey'}}>
-    //             선택해주세요
-    //         </Dropdown.Toggle>
-    //
-    //         <Dropdown.Menu>
-    //             <Dropdown.Item href="#/action-1">naver.com</Dropdown.Item>
-    //             <Dropdown.Item href="#/action-2">hanmail.net</Dropdown.Item>
-    //             <Dropdown.Item href="#/action-3">Daum.net</Dropdown.Item>
-    //         </Dropdown.Menu>
-    //     </Dropdown>)
-    // }
 
 
     return (
@@ -125,29 +108,6 @@ const Signup = () => {
                 <Col/>
                 <Col xs={6}>
                     <Form onSubmit={submitHandler}>
-                        <Form.Group className="mb-3" controlId="formBasicUsername">
-                            <Form.Label>유저이름</Form.Label>
-                            <div style={{display: 'flex', flexDirection: 'row'}}>
-                                <Form.Control type="text"
-                                              placeholder="유저이름"
-                                              value={username}
-                                              onChange={(e) => {
-                                                  setUsername(e.target.value)
-                                              }}
-                                />
-                                {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
-                            </div>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>닉네임</Form.Label>
-                            <div style={{color: 'grey', fontSize: '0.75rem'}}>다른 유저와 겹치지 않도록 입력해주세요. (2~20자).</div>
-                            <Form.Control type="text"
-                                          placeholder="별명 (2~20글자)"
-                                          value={nickname}
-                                          onChange={(e) => setNickname(e.target.value)}/>
-                        </Form.Group>
-
 
                         <Form.Group className="mb-3">
                             <Form.Label>이메일</Form.Label>
@@ -174,7 +134,7 @@ const Signup = () => {
                             <Form.Group className="mb-3">
                                 <div style={{display: 'flex', flexDirection: 'row'}}>
                                     <Form.Control type="text"
-                                                  placeholder="Code"
+                                                  placeholder="코드"
                                                   value={code}
                                                   onChange={(e) => {
                                                       setCode(e.target.value)
@@ -210,6 +170,29 @@ const Signup = () => {
                                           onChange={(e) => setPasswordcheck(e.target.value)}/>
                         </Form.Group>
 
+                        <Form.Group className="mb-3" controlId="formBasicUsername">
+                            <Form.Label>유저이름</Form.Label>
+                            <div style={{display: 'flex', flexDirection: 'row'}}>
+                                <Form.Control type="text"
+                                              placeholder="유저이름"
+                                              value={username}
+                                              onChange={(e) => {
+                                                  setUsername(e.target.value)
+                                              }}
+                                />
+                                {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>닉네임</Form.Label>
+                            <div style={{color: 'grey', fontSize: '0.75rem'}}>다른 유저와 겹치지 않도록 입력해주세요. (2~20자).</div>
+                            <Form.Control type="text"
+                                          placeholder="별명 (2~20글자)"
+                                          value={nickname}
+                                          onChange={(e) => setNickname(e.target.value)}/>
+                        </Form.Group>
+                        
                         <Form.Group className="mb-3">
                             <Form.Label>전화번호</Form.Label>
                             <Form.Control type="text"
@@ -256,7 +239,7 @@ const Signup = () => {
                                     <Form.Check style={{marginBottom: '1px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'이벤트'}
-                                                label={'이벤트, 쿠폰, 특가 알림 메일 및 SMS 등 수신(선택)'}
+                                                label={'이벤트, 특가 알림 및 SMS 등 수신(선택)'}
                                                 value={check5}
                                                 onChange={(e) => setCheck5(true)}
                                     />

@@ -1,5 +1,5 @@
 import {createBrowserRouter} from "react-router-dom";
-import {ForgotPassword, Login, Signup, Main, Profile} from "./components";
+import {ForgotPassword, Login, Signup, Main, Profile, EditProfile} from "./components";
 
 
 
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
     {
         path: '/profile',
         element: <Profile />
+    },
+    {
+        path: '/edit/profile',
+        element: <EditProfile />
     }
 ])
 

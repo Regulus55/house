@@ -3,5 +3,6 @@ import ForgotPassword from "./ForgotPassword";
 import Signup from "./Signup";
 import Main from "./Main";
 import Profile from './Profile';
+import EditProfile from "./EditProfile";
 
-export {Login, ForgotPassword, Signup, Main, Profile}
+export {Login, ForgotPassword, Signup, Main, Profile, EditProfile}
