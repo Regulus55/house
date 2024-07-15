@@ -99,6 +99,13 @@ const Signup = () => {
         }
     }
 
+    const checkAll = (e) => {
+        setCheck1(true)
+        setCheck2(true)
+        setCheck3(true)
+        setCheck4(true)
+        setCheck5(true)
+    }
 
     return (
         <Container>
@@ -206,6 +213,12 @@ const Signup = () => {
                             {['checkbox'].map((type) => (
                                 <div key={`default-${type}`} className="mb-3">
 
+                                    {/*<Form.Check style={{marginTop:'20px',marginBottom: '5px',fontSize:'0.75rem'}}*/}
+                                    {/*            id={'전체'}*/}
+                                    {/*            label={'전체동의'}*/}
+                                    {/*            onChange={(e)=>checkAll}*/}
+                                    {/*/>*/}
+
                                     <Form.Check style={{marginTop:'20px',marginBottom: '5px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'나이약관'}
@@ -213,6 +226,7 @@ const Signup = () => {
                                                 value={check1}
                                                 onChange={(e) => setCheck1(true)}
                                     />
+
                                     <Form.Check style={{marginBottom: '5px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'이용약관'}

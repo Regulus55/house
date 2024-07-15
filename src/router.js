@@ -1,5 +1,5 @@
 import {createBrowserRouter} from "react-router-dom";
-import {ForgotPassword, Login, Signup, Main, Profile, CreateProfile} from "./components";
+import {ForgotPassword, Login, Signup, Main, Profile, CreatePrivacy, ViewPrivacy, ChangePassword} from "./components";
 
 
 
@@ -26,8 +26,16 @@ const router = createBrowserRouter([
         element: <Profile />
     },
     {
-        path: '/create/profile',
-        element: <CreateProfile />
+        path: '/create/privacy',
+        element: <CreatePrivacy />
+    },
+    {
+        path: '/view/privacy',
+        element: <ViewPrivacy/>
+    },
+    {
+        path: '/change/password',
+        element: <ChangePassword/>
     }
 ])
 

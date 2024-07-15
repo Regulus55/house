@@ -68,8 +68,11 @@ const Profile = () => {
                         </Card.Body>
                     </Card>
 
-                    <Link to={'/create/profile'}>
+                    <Link to={'/create/privacy'}>
                         <Button style={{width: '15rem', marginTop: '1rem'}}>개인정보 생성</Button>
+                    </Link>
+                    <Link to={'/view/privacy'}>
+                        <Button style={{width: '15rem', marginTop: '1rem'}}>개인정보 보기</Button>
                     </Link>
                 </Col>
 
@@ -79,7 +82,7 @@ const Profile = () => {
                         <Card style={{width: '25rem'}}>
                             <Card.Img variant="top"/>
                             <Card.Body>
-                                <Card.Title>*개인정보*</Card.Title>
+                                <Card.Title>* 프로필 *</Card.Title>
                                 <Card.Text style={{fontSize: '0.9rem', lineHeight: '2rem'}}>
                                     <div>유저네임 : {profileInfo.userName}</div>
                                     <div>닉네임 : {profileInfo.nickName}</div>
@@ -94,7 +97,7 @@ const Profile = () => {
                         <Card style={{width: '25rem', lineHeight: '2rem'}}>
                             <Card.Img variant="top"/>
                             <Card.Body>
-                                <Card.Title>*개인정보동의이력*</Card.Title>
+                                <Card.Title>* 개인정보동의이력 *</Card.Title>
                                 {['checkbox'].map((type) => (
                                     <div key={`default-${type}`} className="mb-3">
                                         <Form.Check // prettier-ignore
