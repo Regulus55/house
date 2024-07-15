@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Button, Card, Col, Container, Row, Form, Dropdown} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const CreatePrivacy = () => {
+    const navigate = useNavigate();
+
     const [profileInfo, setProfileInfo] = useState({})
     const [country, setCountry] = useState('')
     const [bornArea, setBornArea] = useState('')
@@ -22,25 +24,65 @@ const CreatePrivacy = () => {
     const [drink, setDrink] = useState('')
     const [smoking, setSmoking] = useState('')
     const [bloodType, setBloodType] = useState('')
-    const [mbtiType, setMBtiType] = useState('')
+    const [mbtiType, setMbtiType] = useState('')
     const [selfIntroduce, setSelfIntroduce] = useState('')
 
 
-    // const getProfileInfo = async () => {
-    //     try {
-    //         const token = localStorage.getItem('token');
-    //         const config = {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             }
-    //         }
-    //         const result = await axios.get('http://localhost:7070/api/auth', config)
-    //         console.log('+++++++++++++++++++++', result.data.body.profile)
-    //         setProfileInfo(result.data.body.profile)
-    //     } catch (err) {
-    //         console.log('--------', err)
-    //     }
-    // }
+    const getProfileInfo = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+            const {data} = await axios.get('http://localhost:7070/api/auth', config)
+            // ^^유알엘에 필요한 정보가 담겨있고, config 에 authorization 정보를 담겨있다
+            console.log('+++++++++++++++++++++', data.body.profile)
+            const {
+                country,
+                bornArea,
+                addressOfHome,
+                activityArea,
+                age,
+                birth,
+                gender,
+                height,
+                bodyType,
+                drinking,
+                smoking,
+                bloodType,
+                mbtiType,
+                selfIntroduce
+            } = data.body.profile
+
+
+            const formattedMonth = String(birth.month).padStart(2, '0');
+            const formattedDay = String(birth.day).padStart(2, '0');
+            setBirth(`${birth.year}-${formattedMonth}-${formattedDay}`);
+            setDayta({
+                year: new Date().getFullYear()
+            })
+
+
+
+            setCountry(country)
+            setBornArea(bornArea)
+            setAddressOfHome(addressOfHome)
+            setActivityArea(activityArea)
+            setAge(age)
+            setGender(gender)
+            setHeight(height)
+            setBodyType(bodyType)
+            setDrink(drinking)
+            setSmoking(smoking)
+            setBloodType(bloodType)
+            setMbtiType(mbtiType)
+            setSelfIntroduce(selfIntroduce)
+        } catch (err) {
+            console.log('겟인포에러', err)
+        }
+    }
 
     const submitHandler = async (e) => {
         try {
@@ -68,10 +110,16 @@ const CreatePrivacy = () => {
             }
             const url = 'http://localhost:7070/api/profile'
             const {data, status} = await axios.post(url, userInput, config)
-            // if (status === 201) {
-            //     alert('create ok')
-            // }
-            console.log('ddddddd', userInput)
+
+            /////
+
+            /////
+
+            if (status === 201) {
+                alert('create ok')
+                navigate('/profile')
+            }
+            console.log(userInput)
         } catch (err) {
             console.log('--------------', err)
         }
@@ -81,7 +129,8 @@ const CreatePrivacy = () => {
         const formattedMonth = String(dayta.month).padStart(2, '0');
         const formattedDay = String(dayta.day).padStart(2, '0');
         setBirth(`${dayta.year}-${formattedMonth}-${formattedDay}`);
-    }, [dayta]);
+        getProfileInfo()
+    }, []);
 
     return (
         <Container>
@@ -400,7 +449,7 @@ const CreatePrivacy = () => {
                                         <Form.Label>현재 주소</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            placeholder="현재 주소를 입력하세요"
+                                            placeholder="주소를 입력하세요"
                                             value={addressOfHome}
                                             onChange={(e) => setAddressOfHome(e.target.value)}
                                         />
@@ -431,7 +480,7 @@ const CreatePrivacy = () => {
                                         <Row>
                                             <Col>
                                                 <Form.Select
-                                                    value={dayta.year}
+                                                    value={ dayta.year}
                                                     onChange={(e) => setDayta((prevDayta) => ({
                                                         ...prevDayta,
                                                         year: e.target.value
@@ -526,10 +575,10 @@ const CreatePrivacy = () => {
                                             <option>
                                                 음주정도를 선택하세요
                                             </option>
-                                            <option value={'아예 안마심'}>아예 안마심</option>
-                                            <option value={'가끔 한두잔'}>가끔 한두잔</option>
-                                            <option value={'주에 한번'}>주에 한번</option>
-                                            <option value={'주에 두번 이상'}>주에 두번 이상</option>
+                                            <option value={'1'}>아예 안마심</option>
+                                            <option value={'2'}>가끔 한두잔</option>
+                                            <option value={'3'}>주에 한번</option>
+                                            <option value={'4'}>주에 두번 이상</option>
                                         </Form.Select>
                                     </Form.Group>
 
@@ -564,7 +613,7 @@ const CreatePrivacy = () => {
                                             type="text"
                                             placeholder="MBTI 를 입력하세요"
                                             value={mbtiType}
-                                            onChange={(e) => setMBtiType(e.target.value)}
+                                            onChange={(e) => setMbtiType(e.target.value)}
                                         />
                                     </Form.Group>
 

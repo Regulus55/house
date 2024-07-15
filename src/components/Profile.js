@@ -68,12 +68,13 @@ const Profile = () => {
                         </Card.Body>
                     </Card>
 
+                  
+
                     <Link to={'/create/privacy'}>
-                        <Button style={{width: '15rem', marginTop: '1rem'}}>개인정보 생성</Button>
+                        <Button style={{width: '15rem', marginTop: '1rem'}}>개인정보 {profileInfo.profile === null ? '생성' : '업데이트'}</Button>
                     </Link>
-                    <Link to={'/view/privacy'}>
-                        <Button style={{width: '15rem', marginTop: '1rem'}}>개인정보 보기</Button>
-                    </Link>
+                    
+                    
                 </Col>
 
 
