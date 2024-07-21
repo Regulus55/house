@@ -12,8 +12,7 @@ const CreatePrivacy = () => {
     const [addressOfHome, setAddressOfHome] = useState('')
     const [activityArea, setActivityArea] = useState('')
     const [age, setAge] = useState('')
-    const [birth, setBirth] = useState('')
-    const [dayta, setDayta] = useState({
+    const [birth, setBirth] = useState({
         year: new Date().getFullYear(),
         month: new Date().getMonth() + 1,
         day: new Date().getDate()
@@ -57,19 +56,19 @@ const CreatePrivacy = () => {
             } = data.body.profile
 
 
-            const formattedMonth = String(birth.month).padStart(2, '0');
-            const formattedDay = String(birth.day).padStart(2, '0');
-            setBirth(`${birth.year}-${formattedMonth}-${formattedDay}`);
-            setDayta({
-                year: new Date().getFullYear()
-            })
-
-
-
+            setProfileInfo(data.body.profile)
             setCountry(country)
             setBornArea(bornArea)
             setAddressOfHome(addressOfHome)
             setActivityArea(activityArea)
+            setBirth(prevBirth => ({
+                ...prevBirth,
+                year: new Date(birth).getFullYear(),
+                month: new Date(birth).getMonth() + 1,
+                day: new Date(birth).getDate()
+                // ^^^ birth 데이터 받아온걸 new Date 형태로 바꾸고, getFullYear 붙임.
+                // birth를 console 찍어보면 2009-05-11T15:00:00.000Z 이렇게나옴
+            }));
             setAge(age)
             setGender(gender)
             setHeight(height)
@@ -83,6 +82,9 @@ const CreatePrivacy = () => {
             console.log('겟인포에러', err)
         }
     }
+
+// console.log('ddddddd',Object.keys(profileInfo).length === 0)
+//     ^^^ 개인정보생성 데이터 없는지 알아보는 자바스크립트
 
     const submitHandler = async (e) => {
         try {
@@ -109,27 +111,29 @@ const CreatePrivacy = () => {
                 }
             }
             const url = 'http://localhost:7070/api/profile'
-            const {data, status} = await axios.post(url, userInput, config)
+            const {data, status} = await axios.post(url, userInput, config, data)
 
-            /////
-
-            /////
 
             if (status === 201) {
                 alert('create ok')
                 navigate('/profile')
             }
-            console.log(userInput)
+            console.log('ddddd', userInput)
+            console.log('ddddd', status)
         } catch (err) {
-            console.log('--------------', err)
+            console.log('submit에러', err)
+
+
         }
     }
 
+
     useEffect(() => {
-        const formattedMonth = String(dayta.month).padStart(2, '0');
-        const formattedDay = String(dayta.day).padStart(2, '0');
-        setBirth(`${dayta.year}-${formattedMonth}-${formattedDay}`);
+        const formattedMonth = String(birth.month).padStart(2, '0');
+        const formattedDay = String(birth.day).padStart(2, '0');
+        setBirth(`${birth.year}-${formattedMonth}-${formattedDay}`);
         getProfileInfo()
+
     }, []);
 
     return (
@@ -480,9 +484,9 @@ const CreatePrivacy = () => {
                                         <Row>
                                             <Col>
                                                 <Form.Select
-                                                    value={ dayta.year}
-                                                    onChange={(e) => setDayta((prevDayta) => ({
-                                                        ...prevDayta,
+                                                    value={birth.year}
+                                                    onChange={(e) => setBirth((prevBirth) => ({
+                                                        ...prevBirth,
                                                         year: e.target.value
                                                     }))}
                                                 >
@@ -496,9 +500,9 @@ const CreatePrivacy = () => {
                                             </Col>
                                             년
                                             <Col>
-                                                <Form.Select value={dayta.month}
-                                                             onChange={(e) => setDayta((prevDayta) => ({
-                                                                 ...prevDayta,
+                                                <Form.Select value={birth.month}
+                                                             onChange={(e) => setBirth((prevBirth) => ({
+                                                                 ...prevBirth,
                                                                  month: e.target.value
                                                              }))}
                                                 >
@@ -512,9 +516,9 @@ const CreatePrivacy = () => {
                                             </Col>
                                             월
                                             <Col>
-                                                <Form.Select value={dayta.day}
-                                                             onChange={(e) => setDayta((prevDayta) => ({
-                                                                 ...prevDayta,
+                                                <Form.Select value={birth.day}
+                                                             onChange={(e) => setBirth((prevBirth) => ({
+                                                                 ...prevBirth,
                                                                  day: e.target.value
                                                              }))}
                                                 >
@@ -620,18 +624,22 @@ const CreatePrivacy = () => {
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>자기소개 한마디</Form.Label>
                                         <Form.Control
-                                            type="text"
+                                            as="textarea"
+                                            rows={3}
                                             placeholder="자기소개를 입력하세요"
                                             value={selfIntroduce}
                                             onChange={(e) => setSelfIntroduce(e.target.value)}
                                         />
                                     </Form.Group>
+
                                 </Form>
                             </Card.Text>
                         </Card.Body>
                     </Card>
 
-                    <Button className={'mt-3'} style={{width: '100%'}} onClick={submitHandler}>개인정보 생성하기</Button>
+                    <Button className={'mt-3 mb-5'} style={{width: '100%'}}
+                            onClick={submitHandler}>개인정보 {Object.keys(profileInfo).length === 0 ? '생성하기' : '업데이트'}
+                    </Button>
 
                 </Col>
                 <Col/>
