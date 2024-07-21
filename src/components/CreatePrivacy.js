@@ -78,6 +78,7 @@ const CreatePrivacy = () => {
             setBloodType(bloodType)
             setMbtiType(mbtiType)
             setSelfIntroduce(selfIntroduce)
+
         } catch (err) {
             console.log('겟인포에러', err)
         }
@@ -118,8 +119,6 @@ const CreatePrivacy = () => {
                 alert('create ok')
                 navigate('/profile')
             }
-            console.log('ddddd', userInput)
-            console.log('ddddd', status)
         } catch (err) {
             console.log('submit에러', err)
 
@@ -133,6 +132,9 @@ const CreatePrivacy = () => {
         const formattedDay = String(birth.day).padStart(2, '0');
         setBirth(`${birth.year}-${formattedMonth}-${formattedDay}`);
         getProfileInfo()
+        console.log('qqqqqqqqqq', birth.year)
+        console.log('오늘년',new Date().getFullYear())
+        console.log( 'dddd',birth.year)
 
     }, []);
 
@@ -470,16 +472,6 @@ const CreatePrivacy = () => {
                                     </Form.Group>
 
                                     <Form.Group className="mb-3">
-                                        <Form.Label>나이</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="나이를 입력하세요"
-                                            value={age}
-                                            onChange={(e) => setAge(Number(e.target.value))}/>
-                                    </Form.Group>
-
-
-                                    <Form.Group className="mb-3">
                                         <Form.Label>출생정보</Form.Label>
                                         <Row>
                                             <Col>
@@ -489,6 +481,7 @@ const CreatePrivacy = () => {
                                                         ...prevBirth,
                                                         year: e.target.value
                                                     }))}
+
                                                 >
                                                     <option>년도</option>
                                                     {[...Array(100).keys()].map(i => (
@@ -534,9 +527,19 @@ const CreatePrivacy = () => {
                                     </Form.Group>
 
 
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>성별</Form.Label>
-                                        <Form.Select value={gender} onChange={(e) => setGender(e.target.value)}>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>나이</Form.Label>
+                                        <Form.Control
+                                            // disabled={true}
+                                            type="text"
+                                            placeholder="나이를 입력하세요"
+                                            value={age}
+                                            onChange={(e) => setAge(new Date().getFullYear() - birth.year)}                                                / >
+                                                < /Form.Group>
+
+                                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                                <Form.Label>성별</Form.Label>
+                                                <Form.Select value={gender} onChange={(e) => setGender(e.target.value)}>
                                             <option>
                                                 성별을 선택하세요
                                             </option>
@@ -646,7 +649,7 @@ const CreatePrivacy = () => {
             </Row>
             <Row/>
         </Container>
-    );
+);
 };
 
 
