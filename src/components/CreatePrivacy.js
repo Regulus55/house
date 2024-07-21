@@ -20,7 +20,7 @@ const CreatePrivacy = () => {
     const [gender, setGender] = useState('')
     const [height, setHeight] = useState('키를 입력하세요')
     const [bodyType, setBodyType] = useState(6)
-    const [drink, setDrink] = useState('')
+    const [drinking, setDrinking] = useState('')
     const [smoking, setSmoking] = useState('')
     const [bloodType, setBloodType] = useState('')
     const [mbtiType, setMbtiType] = useState('')
@@ -73,7 +73,7 @@ const CreatePrivacy = () => {
             setGender(gender)
             setHeight(height)
             setBodyType(bodyType)
-            setDrink(drinking)
+            setDrinking(drinking)
             setSmoking(smoking)
             setBloodType(bloodType)
             setMbtiType(mbtiType)
@@ -88,6 +88,7 @@ const CreatePrivacy = () => {
 //     ^^^ 개인정보생성 데이터 없는지 알아보는 자바스크립트
 
     const submitHandler = async (e) => {
+        e.preventDefault()
         try {
             const userInput = {
                 country,
@@ -96,10 +97,11 @@ const CreatePrivacy = () => {
                 activityArea,
                 birth,
                 age,
+                // : new Date().getFullYear() - birth.year
                 gender,
                 height,
                 bodyType,
-                drink,
+                drinking,
                 smoking,
                 bloodType,
                 mbtiType,
@@ -112,30 +114,62 @@ const CreatePrivacy = () => {
                 }
             }
             const url = 'http://localhost:7070/api/profile'
-            const {data, status} = await axios.post(url, userInput, config, data)
-
-
+            const {data, status} = await axios.post(url, userInput, config)
+            console.log('data',data)
             if (status === 201) {
-                alert('create ok')
+                alert('privacy create ok')
                 navigate('/profile')
             }
+            console.log('uuu',userInput)
         } catch (err) {
             console.log('submit에러', err)
-
-
         }
     }
 
+    const editPrivacy = async () => {
+        try{
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+
+            const userInput = {
+                country,
+                bornArea,
+                addressOfHome,
+                activityArea,
+                birth,
+                age,
+                gender,
+                height,
+                bodyType,
+                drinking,
+                smoking,
+                bloodType,
+                mbtiType,
+                selfIntroduce,
+            }
+            console.log(userInput)
+            const url = 'http://localhost:7070/api/profile'
+            const {data, status} = await axios.put(url, userInput, config)
+            if(status === 200){
+                alert('privacy update ok')
+            }
+        }catch(e){
+            console.log('-------',e)
+        }
+    }
 
     useEffect(() => {
         const formattedMonth = String(birth.month).padStart(2, '0');
         const formattedDay = String(birth.day).padStart(2, '0');
         setBirth(`${birth.year}-${formattedMonth}-${formattedDay}`);
         getProfileInfo()
-        console.log('qqqqqqqqqq', birth.year)
-        console.log('오늘년',new Date().getFullYear())
-        console.log( 'dddd',birth.year)
-
+        // console.log('올해', new Date().getFullYear())
+        // console.log('birth.year', birth.year)
+        // console.log('profileINfo',profileInfo)
     }, []);
 
     return (
@@ -534,12 +568,16 @@ const CreatePrivacy = () => {
                                             type="text"
                                             placeholder="나이를 입력하세요"
                                             value={age}
-                                            onChange={(e) => setAge(new Date().getFullYear() - birth.year)}                                                / >
-                                                < /Form.Group>
+                                            onChange={(e) => setAge(
+                                                // new Date().getFullYear() - birth.year
+                                                Number(e.target.value))}
+                                        />
 
-                                                <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label>성별</Form.Label>
-                                                <Form.Select value={gender} onChange={(e) => setGender(e.target.value)}>
+                                    < /Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form.Label>성별</Form.Label>
+                                        <Form.Select value={gender} onChange={(e) => setGender(e.target.value)}>
                                             <option>
                                                 성별을 선택하세요
                                             </option>
@@ -578,7 +616,7 @@ const CreatePrivacy = () => {
 
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>음주</Form.Label>
-                                        <Form.Select value={drink} onChange={(e) => setDrink(e.target.value)}>
+                                        <Form.Select value={drinking} onChange={(e) => setDrinking(e.target.value)}>
                                             <option>
                                                 음주정도를 선택하세요
                                             </option>
@@ -641,15 +679,16 @@ const CreatePrivacy = () => {
                     </Card>
 
                     <Button className={'mt-3 mb-5'} style={{width: '100%'}}
-                            onClick={submitHandler}>개인정보 {Object.keys(profileInfo).length === 0 ? '생성하기' : '업데이트'}
+                            onClick={editPrivacy}>개인정보 {Object.keys(profileInfo).length === 0 ? '생성하기' : '업데이트'}
                     </Button>
+
 
                 </Col>
                 <Col/>
             </Row>
             <Row/>
         </Container>
-);
+    );
 };
 
 

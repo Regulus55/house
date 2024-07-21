@@ -4,9 +4,11 @@ import {Button, Card, Col, Container, Row, Form} from "react-bootstrap";
 import {CiBookmark} from "react-icons/ci";
 import {CiHeart} from "react-icons/ci";
 import {RiCoupon3Line} from "react-icons/ri";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const Profile = () => {
+    const navigate = useNavigate()
+
     const [profileInfo, setProfileInfo] = useState({})
     const [check4, setCheck4] = useState(false)
     const [check5, setCheck5] = useState(false)
@@ -33,6 +35,9 @@ const Profile = () => {
     // }
 
     useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
         getProfileInfo()
     }, [])
 
