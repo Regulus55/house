@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
+    const token = localStorage.getItem('token')
     const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -25,11 +26,18 @@ const Login = () => {
         } catch (err) {
             if (err.response.data.message.includes('Wrong') || err.response.data.message.includes('User')) {
                 alert('잘못된 아이디 혹은 비밀번호 입니다')
+                console.log('---', err)
+            } else {
+                console.log('로그인 에러', err)
             }
-            console.log('---', err)
         }
     }
 
+    useEffect(() => {
+        if (token !== null) {
+            navigate('/profile')
+        }
+    })
 
     return (
         <Container>

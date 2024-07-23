@@ -3,7 +3,7 @@ import axios from "axios";
 import {Button, Card, Col, Container, Row, Form, Dropdown} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 
-const CreatePrivacy = () => {
+const Privacy = () => {
     const navigate = useNavigate();
 
     const [profileInfo, setProfileInfo] = useState({})
@@ -12,7 +12,8 @@ const CreatePrivacy = () => {
     const [addressOfHome, setAddressOfHome] = useState('')
     const [activityArea, setActivityArea] = useState('')
     const [age, setAge] = useState('')
-    const [birth, setBirth] = useState({
+    const [birth, setBirth] = useState('')
+    const [birthDate, setBirthDate] = useState({
         year: new Date().getFullYear(),
         month: new Date().getMonth() + 1,
         day: new Date().getDate()
@@ -37,7 +38,7 @@ const CreatePrivacy = () => {
             }
             const {data} = await axios.get('http://localhost:7070/api/auth', config)
             // ^^유알엘에 필요한 정보가 담겨있고, config 에 authorization 정보를 담겨있다
-            console.log('+++++++++++++++++++++', data.body.profile)
+            console.log('getProfileInfo', data.body.profile)
             const {
                 country,
                 bornArea,
@@ -61,7 +62,8 @@ const CreatePrivacy = () => {
             setBornArea(bornArea)
             setAddressOfHome(addressOfHome)
             setActivityArea(activityArea)
-            setBirth(prevBirth => ({
+            setBirth(birth)
+            setBirthDate(prevBirth => ({
                 ...prevBirth,
                 year: new Date(birth).getFullYear(),
                 month: new Date(birth).getMonth() + 1,
@@ -87,17 +89,20 @@ const CreatePrivacy = () => {
 // console.log('ddddddd',Object.keys(profileInfo).length === 0)
 //     ^^^ 개인정보생성 데이터 없는지 알아보는 자바스크립트
 
-    const submitHandler = async (e) => {
+    const createPrivacy = async (e) => {
         e.preventDefault()
         try {
+            const formattedMonth = String(birthDate.month).padStart(2, '0');
+            const formattedDay = String(birthDate.day).padStart(2, '0');
+            const formattedBirth = `${birthDate.year}-${formattedMonth}-${formattedDay}`
+
             const userInput = {
                 country,
                 bornArea,
                 addressOfHome,
                 activityArea,
-                birth,
-                age,
-                // : new Date().getFullYear() - birth.year
+                birth: formattedBirth,
+                age: new Date().getFullYear() - birth.year,
                 gender,
                 height,
                 bodyType,
@@ -107,6 +112,7 @@ const CreatePrivacy = () => {
                 mbtiType,
                 selfIntroduce,
             }
+
             const token = localStorage.getItem('token');
             const config = {
                 headers: {
@@ -115,33 +121,35 @@ const CreatePrivacy = () => {
             }
             const url = 'http://localhost:7070/api/profile'
             const {data, status} = await axios.post(url, userInput, config)
-            console.log('data',data)
             if (status === 201) {
-                alert('privacy create ok')
+                alert('privacy creation complete')
                 navigate('/profile')
             }
-            console.log('uuu',userInput)
+            console.log('userinput', userInput)
         } catch (err) {
             console.log('submit에러', err)
         }
     }
 
     const editPrivacy = async () => {
-        try{
+        try {
             const token = localStorage.getItem('token');
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             }
+            const formattedMonth = String(birthDate.month).padStart(2, '0');
+            const formattedDay = String(birthDate.day).padStart(2, '0');
+            const formattedBirth = `${birthDate.year}-${formattedMonth}-${formattedDay}`
 
             const userInput = {
                 country,
                 bornArea,
                 addressOfHome,
                 activityArea,
-                birth,
-                age,
+                birth: formattedBirth,
+                age: new Date().getFullYear() - birthDate.year,
                 gender,
                 height,
                 bodyType,
@@ -154,22 +162,17 @@ const CreatePrivacy = () => {
             console.log(userInput)
             const url = 'http://localhost:7070/api/profile'
             const {data, status} = await axios.put(url, userInput, config)
-            if(status === 200){
-                alert('privacy update ok')
+            if (status === 200) {
+                alert('privacy update complete')
+                navigate('/profile')
             }
-        }catch(e){
-            console.log('-------',e)
+        } catch (e) {
+            console.log('edit프라이버시 에러', e)
         }
     }
 
     useEffect(() => {
-        const formattedMonth = String(birth.month).padStart(2, '0');
-        const formattedDay = String(birth.day).padStart(2, '0');
-        setBirth(`${birth.year}-${formattedMonth}-${formattedDay}`);
         getProfileInfo()
-        // console.log('올해', new Date().getFullYear())
-        // console.log('birth.year', birth.year)
-        // console.log('profileINfo',profileInfo)
     }, []);
 
     return (
@@ -510,12 +513,11 @@ const CreatePrivacy = () => {
                                         <Row>
                                             <Col>
                                                 <Form.Select
-                                                    value={birth.year}
-                                                    onChange={(e) => setBirth((prevBirth) => ({
-                                                        ...prevBirth,
+                                                    value={birthDate.year}
+                                                    onChange={(e) => setBirthDate((prevBirthDate) => ({
+                                                        ...prevBirthDate,
                                                         year: e.target.value
                                                     }))}
-
                                                 >
                                                     <option>년도</option>
                                                     {[...Array(100).keys()].map(i => (
@@ -527,9 +529,9 @@ const CreatePrivacy = () => {
                                             </Col>
                                             년
                                             <Col>
-                                                <Form.Select value={birth.month}
-                                                             onChange={(e) => setBirth((prevBirth) => ({
-                                                                 ...prevBirth,
+                                                <Form.Select value={birthDate.month}
+                                                             onChange={(e) => setBirthDate((prevBirthDate) => ({
+                                                                 ...prevBirthDate,
                                                                  month: e.target.value
                                                              }))}
                                                 >
@@ -543,9 +545,9 @@ const CreatePrivacy = () => {
                                             </Col>
                                             월
                                             <Col>
-                                                <Form.Select value={birth.day}
-                                                             onChange={(e) => setBirth((prevBirth) => ({
-                                                                 ...prevBirth,
+                                                <Form.Select value={birthDate.day}
+                                                             onChange={(e) => setBirthDate((prevBirthDate) => ({
+                                                                 ...prevBirthDate,
                                                                  day: e.target.value
                                                              }))}
                                                 >
@@ -560,20 +562,19 @@ const CreatePrivacy = () => {
                                         </Row>
                                     </Form.Group>
 
-
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>나이</Form.Label>
-                                        <Form.Control
-                                            // disabled={true}
-                                            type="text"
-                                            placeholder="나이를 입력하세요"
-                                            value={age}
-                                            onChange={(e) => setAge(
-                                                // new Date().getFullYear() - birth.year
-                                                Number(e.target.value))}
-                                        />
-
-                                    < /Form.Group>
+                                    {/*<Form.Group className="mb-3">*/}
+                                    {/*    <Form.Label>나이</Form.Label>*/}
+                                    {/*    <Form.Control*/}
+                                    {/*        // disabled={true}*/}
+                                    {/*        type="text"*/}
+                                    {/*        placeholder="나이를 입력하세요"*/}
+                                    {/*        value={age}*/}
+                                    {/*        onChange={(e) => setAge(*/}
+                                    {/*            new Date().getFullYear() - birth.year*/}
+                                    {/*            // Number(e.target.value)*/}
+                                    {/*        )}*/}
+                                    {/*    />*/}
+                                    {/*< /Form.Group>*/}
 
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>성별</Form.Label>
@@ -678,10 +679,13 @@ const CreatePrivacy = () => {
                         </Card.Body>
                     </Card>
 
-                    <Button className={'mt-3 mb-5'} style={{width: '100%'}}
-                            onClick={editPrivacy}>개인정보 {Object.keys(profileInfo).length === 0 ? '생성하기' : '업데이트'}
+                    <Button
+                        className={'mt-3 mb-5'}
+                        style={{width: '100%'}}
+                        onClick={Object.keys(profileInfo).length === 0 ? createPrivacy : editPrivacy}
+                    >개인정보
+                        {Object.keys(profileInfo).length === 0 ? ' 생성하기' : ' 업데이트'}
                     </Button>
-
 
                 </Col>
                 <Col/>
@@ -692,4 +696,4 @@ const CreatePrivacy = () => {
 };
 
 
-export default CreatePrivacy;
+export default Privacy;
