@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Button, Card, Col, Container, Row, Form, Dropdown} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
+import {ViewContainer} from "../components";
 
 const Privacy = () => {
     const navigate = useNavigate();
@@ -176,12 +177,12 @@ const Privacy = () => {
     }, []);
 
     return (
-        <Container>
-            <Row/>
+        <ViewContainer>
+
             <Row>
                 <Col/>
                 <Col className={'mt-5'}>
-                    <Card style={{width: '25rem', border: '1px solid #ccc'}}>
+                    <Card style={{width: '30rem', border: '1px solid #ccc'}}>
                         <Card.Body>
                             <Card.Title className={'mb-3'}>*개인정보 생성*</Card.Title>
                             <Card.Text style={{lineHeight: '2rem'}}>
@@ -681,7 +682,7 @@ const Privacy = () => {
 
                     <Button
                         className={'mt-3 mb-5'}
-                        style={{width: '100%'}}
+                        style={{width: '100%', height: '3rem'}}
                         onClick={Object.keys(profileInfo).length === 0 ? createPrivacy : editPrivacy}
                     >개인정보
                         {Object.keys(profileInfo).length === 0 ? ' 생성하기' : ' 업데이트'}
@@ -691,9 +692,7 @@ const Privacy = () => {
                 <Col/>
             </Row>
             <Row/>
-        </Container>
-    );
+        </ViewContainer>);
 };
-
 
 export default Privacy;

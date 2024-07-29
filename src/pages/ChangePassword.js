@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Container, Form, Col, Row} from "react-bootstrap";
 import axios from "axios";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {BackButton, ViewContainer} from "../components";
 
 const ChangePassword = () => {
     const location = useLocation();
@@ -13,7 +14,7 @@ const ChangePassword = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        if(password !== passwordCheck){
+        if (password !== passwordCheck) {
             alert('please ckeck password and confirm your password')
             return
         }
@@ -21,14 +22,14 @@ const ChangePassword = () => {
         // console.log('++++++++',queryParams.get('token'))
         try {
             const userInput = {
-                token:  queryParams.get('token'),
+                token: queryParams.get('token'),
                 password
             }
             console.log(userInput)
             const url = 'http://localhost:7070/api/auth/change/password'
             const {data, status} = await axios.put(url, userInput)
 
-            if(status === 200){
+            if (status === 200) {
                 alert('password chance ok')
                 navigate('/login')
             }
@@ -39,8 +40,8 @@ const ChangePassword = () => {
     }
 
     return (
-        <Container>
-            <Row/>
+        <ViewContainer>
+
             <Row>
                 <Col/>
                 <Col className={'mt-5'} xs={6}>
@@ -73,10 +74,7 @@ const ChangePassword = () => {
                 <Col/>
             </Row>
             <Row/>
-        </Container>
-
-
-    );
+        </ViewContainer>);
 };
 
 export default ChangePassword;

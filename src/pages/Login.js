@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import {FaBackspace} from "react-icons/fa";
+import styled from 'styled-components';
 
 const Login = () => {
     const token = localStorage.getItem('token')
@@ -41,9 +43,7 @@ const Login = () => {
 
     return (
         <Container>
-            <Row style={{height: '100px'}}/>
-
-            <Row>
+            <Row className={'mt-5'}>
                 <Col></Col>
                 <Col xs={6}>
                     <Form onSubmit={submitHandler}>
@@ -113,5 +113,16 @@ const Login = () => {
         </Container>
     );
 };
+
+const BackButton = styled(FaBackspace)`
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.1s ease, transform 0.1s ease;
+    font-size: 3rem;
+    margin-right: 1rem;
+
+    &:active {
+        transform: scale(0.9);
+    }`
 
 export default Login;

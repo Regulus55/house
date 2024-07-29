@@ -1,5 +1,5 @@
 import {createBrowserRouter} from "react-router-dom";
-import {ForgotPassword, Login, Signup, Main, Profile, Privacy, ViewPrivacy, ChangePassword} from "./components";
+import {ForgotPassword, Login, Signup, Main, Profile, Privacy, ViewPrivacy, ChangePassword} from "./pages";
 
 
 

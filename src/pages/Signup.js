@@ -109,9 +109,8 @@ const Signup = () => {
 
     return (
         <Container>
-            <Row style={{height: '100px'}}/>
 
-            <Row>
+            <Row className={'mt-5'}>
                 <Col/>
                 <Col xs={6}>
                     <Form onSubmit={submitHandler}>
@@ -242,6 +241,7 @@ const Signup = () => {
                                                 value={check3}
                                                 onChange={(e) => setCheck3(true)}
                                     />
+
                                     <Form.Check style={{marginBottom: '5px',fontSize:'0.75rem'}}
                                                 type={type}
                                                 id={'마케팅'}

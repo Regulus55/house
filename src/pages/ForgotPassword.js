@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {BackButton, ViewContainer} from "../components";
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
@@ -22,9 +23,8 @@ const ForgotPassword = () => {
     }
 
     return (
-        <Container>
-            <Row style={{height: '100px'}}/>
-            <Row>
+        <ViewContainer>
+            <Row className={'mt-4'}>
                 <Col/>
                 <Col xs={6}>
                     <Form>
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
                 <Col/>
             </Row>
             <Row/>
-        </Container>
+        </ViewContainer>
     );
 };
 

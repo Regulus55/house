@@ -1,10 +1,7 @@
-import Login from "./Login";
-import ForgotPassword from "./ForgotPassword";
-import Signup from "./Signup";
-import Main from "./Main";
-import Profile from './Profile';
-import Privacy from "./Privacy";
-import ViewPrivacy from "./ViewPrivacy";
-import ChangePassword from "./ChangePassword";
+import BackButton from "./BackButton";
+import ViewContainer from "./ViewContainer";
 
-export {Login, ForgotPassword, Signup, Main, Profile, Privacy, ViewPrivacy, ChangePassword}
+export {BackButton, ViewContainer}
+
+
+// pages 말고  components 도 똑같이 index.js 를 만들어서 쓴다
