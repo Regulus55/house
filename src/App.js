@@ -1,27 +1,19 @@
 import React from 'react';
-import {RouterProvider} from 'react-router-dom';
+import {RouterProvider, useNavigate} from 'react-router-dom';
 import router from './router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Container} from "react-bootstrap";
 
+
 const App = () => {
     const token = localStorage.getItem('token');
 
     const logout = async () => {
         try {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }
-            console.log('config', config)
-            const url = 'http://localhost:7070/api/auth/logout'
-            // const {data, status} = await axios.post(url, config)
-            // if (status === 201) {
-            //     alert('logout complete')
-            // }
+            localStorage.removeItem('token');
+            alert('로그아웃 되었습니다.')
         } catch (e) {
             console.log('로그아웃 에러', e)
         }
