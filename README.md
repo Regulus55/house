@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# 우리집 (house)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+오늘의 집 사이트를 모방하여 만든 우리집 사이트
 
-## Available Scripts
+## 프로젝트 기간
 
-In the project directory, you can run:
+---
 
-### `npm start`
+ 2024.06 ~ 현재 진행중
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| 테스트계정 |  |
+| --- | --- |
+| 아이디 | hakjoon55@gmail.com |
+| 비밀번호 | qwe123!@# |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 기술스택
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+React, styled-components, javascript
 
-### `npm run build`
+## 주요 기능
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 로그인 / 회원가입
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 회원가입 시 메일인증 필요
 
-### `npm run eject`
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/db662b36-3548-4919-9f59-7c2b0d4dabca/Untitled.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/76ba6bdf-c21d-48ff-b07f-a54639ab227a/Untitled.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 개인정보 생성 / 변경
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/df46d874-dc0e-431a-940b-74657fbc0a81/Untitled.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/92c11686-9086-4908-8846-0e371ca85c0e/Untitled.png)
 
-## Learn More
+## 트러블 슈팅
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+개인정보 생성 시 발생하는 서버에러 수정
 
-### Code Splitting
+입력한 출생정보가 제대로 불러와지지 않는 오류 수정
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 유저가 입력한 정보를 바로 birth 로 받지 않고, birthDate 로 받아서 birth 로 보냄
