@@ -29,13 +29,13 @@ React, styled-components, javascript
 
 ![1](https://github.com/user-attachments/assets/db084c96-3e2a-41dc-9a08-44d14f9086f4)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/76ba6bdf-c21d-48ff-b07f-a54639ab227a/Untitled.png)
+![2](https://github.com/user-attachments/assets/b1787f40-9398-491b-bf57-397ff2c1d623)
 
 ### 개인정보 생성 / 변경
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/df46d874-dc0e-431a-940b-74657fbc0a81/Untitled.png)
+![3](https://github.com/user-attachments/assets/10422bea-4060-494a-8abc-326aa5c5dde0)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/92c11686-9086-4908-8846-0e371ca85c0e/Untitled.png)
+![4](https://github.com/user-attachments/assets/0b21281f-cb4b-41fc-910a-9bb0e7b51882)
 
 ## 트러블 슈팅
 
