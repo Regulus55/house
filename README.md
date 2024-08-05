@@ -27,7 +27,7 @@ React, styled-components, javascript
 
 - 회원가입 시 메일인증 필요
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/db662b36-3548-4919-9f59-7c2b0d4dabca/Untitled.png)
+![1](https://github.com/user-attachments/assets/db084c96-3e2a-41dc-9a08-44d14f9086f4)
 
 ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/76ba6bdf-c21d-48ff-b07f-a54639ab227a/Untitled.png)
 
