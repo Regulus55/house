@@ -26,15 +26,15 @@ const Login = () => {
         navigate("/profile");
       }
     } catch (err) {
-      if (
-        err.response.data.message.includes("Wrong") ||
-        err.response.data.message.includes("User")
-      ) {
-        alert("잘못된 아이디 혹은 비밀번호 입니다");
-        console.log("---", err);
-      } else {
+      // if (
+      //   err.response.data.message.includes("Wrong") ||
+      //   err.response.data.message.includes("User")
+      // ) {
+      //   alert("잘못된 아이디 혹은 비밀번호 입니다");
+      //   console.log("---", err);
+      // } else {
         console.log("로그인 에러", err);
-      }
+      // }
     }
   };
 
