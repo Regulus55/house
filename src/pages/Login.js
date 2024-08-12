@@ -1,62 +1,93 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import {Alert, Button, Col, Container, Form, Row, Spinner} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaBackspace } from "react-icons/fa";
 import styled from "styled-components";
+import {useForm} from "react-hook-form";
+import useLoginUser from "../hooks/useLoginUser";
 
 const Login = () => {
-  const token = localStorage.getItem("token");
+    const {
+        register, handleSubmit, formState: {errors}
+    } = useForm()
+
+  // const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    try {
-      const userInput = {
-        email: email,
-        password: password,
-      };
-      console.log(userInput);
-      const url = "http://localhost:7070/api/auth/login";
-      const { data, status } = await axios.post(url, userInput);
-      if (status === 200) {
-        localStorage.setItem("token", data.token);
-        navigate("/profile");
-      }
-    } catch (err) {
-      // if (
-      //   err.response.data.message.includes("Wrong") ||
-      //   err.response.data.message.includes("User")
-      // ) {
-      //   alert("잘못된 아이디 혹은 비밀번호 입니다");
-      //   console.log("---", err);
-      // } else {
-        console.log("로그인 에러", err);
-      // }
-    }
-  };
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const userInput = {
+  //       email: email,
+  //       password: password,
+  //     };
+  //     console.log(userInput);
+  //     const url = "http://localhost:7070/api/auth/login"
+  //     const { data, status } = await axios.post(url, userInput);
+  //     console.log('+++++++++++++',status)
+  //     if (status === 200) {
+  //       localStorage.setItem("token", data.token);
+  //       navigate("/profile");
+  //     }
+  //   } catch (err) {
+  //     // if (
+  //     //   err.response.data.message.includes("Wrong") ||
+  //     //   err.response.data.message.includes("User")
+  //     // ) {
+  //     //   alert("잘못된 아이디 혹은 비밀번호 입니다");
+  //     //   console.log("---", err);
+  //     // } else {
+  //       console.log("로그인 에러", err);
+  //     // }
+  //   }
+  // };
 
-  useEffect(() => {
-    if (token !== null) {
-      navigate("/profile");
+    const {isLoading, mutateAsync, data, error} = useLoginUser()
+    console.log('data======',data)
+    {}
+
+    const submitHandler = async (values) => {
+        console.log("++++++++",values)
+        await mutateAsync(values)
+       // await localStorage.setItem("token", data.token)
+        // if(localStorage.getItem('token')){
+        //      navigate('/profile')
+        // }
     }
-  });
+  //
+  // useEffect(() => {
+  //   // if (token !== null) {
+  //   //   navigate("/profile");
+  //   // }
+  // },[]);
 
   return (
     <Container>
       <Row className={"mt-5"}>
+          {isLoading && (
+              <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+              </Spinner>
+          )}
+          {error && (
+              <Alert variant={'danger'}>
+                  {error}
+              </Alert>
+          )}
         <Col></Col>
         <Col xs={6}>
-          <Form onSubmit={submitHandler}>
+          <Form onSubmit={handleSubmit(submitHandler)}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label></Form.Label>
               <Form.Control
                 type="email"
                 placeholder="이메일"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                // value={email}
+                // onChange={(e) => setEmail(e.target.value)}
+                {...register('email')}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -64,8 +95,9 @@ const Login = () => {
               <Form.Control
                 type="password"
                 placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                // value={password}
+                // onChange={(e) => setPassword(e.target.value)}
+                {...register('password')}
               />
             </Form.Group>
             <Button
@@ -79,7 +111,6 @@ const Login = () => {
 
             <Form.Group className="mb-3">
               <Link to={"/forgot/password"}>
-                {" "}
                 <Button
                   style={{
                     width: "49%",
