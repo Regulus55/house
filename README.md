@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# 우리집 (house)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+오늘의 집 사이트를 모방하여 만든 우리집 사이트
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 프로젝트 기간
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+ 2024.06 ~ 현재 진행중
 
-### `npm test`
+| 테스트계정 |  |
+| --- | --- |
+| 아이디 | hakjoon55@gmail.com |
+| 비밀번호 | qwe123!@# |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 기술스택
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+React, styled-components, javascript
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 주요 기능
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### 로그인 / 회원가입
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 회원가입 시 메일인증 필요
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![1](https://github.com/user-attachments/assets/db084c96-3e2a-41dc-9a08-44d14f9086f4)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![2](https://github.com/user-attachments/assets/b1787f40-9398-491b-bf57-397ff2c1d623)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 개인정보 생성 / 변경
 
-## Learn More
+![3](https://github.com/user-attachments/assets/10422bea-4060-494a-8abc-326aa5c5dde0)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![4](https://github.com/user-attachments/assets/0b21281f-cb4b-41fc-910a-9bb0e7b51882)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 트러블 슈팅
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+개인정보 생성 시 발생하는 서버에러 수정
 
-### Analyzing the Bundle Size
+입력한 출생정보가 제대로 불러와지지 않는 오류 수정
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 유저가 입력한 정보를 바로 birth 로 받지 않고, birthDate 로 받아서 birth 로 보냄
