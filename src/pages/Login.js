@@ -47,7 +47,6 @@ const Login = () => {
 
     const {isLoading, mutateAsync, data, error} = useLoginUser()
     console.log('data======',data)
-    {}
 
     const submitHandler = async (values) => {
         console.log("++++++++",values)

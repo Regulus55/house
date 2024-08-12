@@ -15,6 +15,7 @@ const useLoginUser = () => {
         mutationFn: (userInput) => loginUser(userInput),
         onSuccess: (data) => {
             queryClient.invalidateQueries({
+                // ^^ 데이터를 담는거
                 queryKey: ['user']
             })
             console.log('--------------------',data.token)
