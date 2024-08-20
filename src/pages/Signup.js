@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import useCreateUser from "../hooks/useCreateUser";
 import useSendEmail from "../hooks/useSendEmail";
 import useCheckEmail from "../hooks/useCheckEmail";
+import {LoadingBar} from "../components";
 
 const Signup = () => {
     const {
@@ -30,16 +31,31 @@ const Signup = () => {
     const [emailCheckEnable, setEmailCheckEnable] = useState(false);
     const [submitEnable, setSubmitEnable] = useState(true);
 
-    const {mutateAsync: sendEmailMutate, data: sendEmailData, error: sendEmailError} = useSendEmail()
-    const {mutateAsync: checkEmailMutate, data: checkEmailData, error: checkEmailError} = useCheckEmail()
     const {
-        isLoading,
+        mutateAsync: sendEmailMutate,
+        status:sendEmailStatus,
+        data: sendEmailData,
+        error: sendEmailError,
+        isSuccess: sendEmailIsSuccess
+    } = useSendEmail()
+    const {
+        mutateAsync: checkEmailMutate,
+        status:checkEmailStatus,
+        isLoading: checkEmailLoading,
+        data: checkEmailData,
+        error: checkEmailError
+    } = useCheckEmail()
+    const {
         mutateAsync: createUserMutate,
+        status:createUserStatus,
+        isLoading: createUserLoading,
         isSuccess,
         data: createUserData,
         error: createUserError
     } = useCreateUser()
 
+
+    console.log('status======', sendEmailStatus)
     // 이 항목들은 스웨거 api 의 리퀘스트 바디에있는 항목들을 참고해서 만듦
 
     // const sendEmailHandler = async (e) => {
@@ -61,9 +77,9 @@ const Signup = () => {
 
 
     const sendEmailHandler = async (values) => {
-        console.log('=======', values);
+        // console.log('=======', values);
         const {email} = values
-        console.log('=+++++++++++++', email)
+        // console.log('=+++++++++++++', email)
         await sendEmailMutate({email})
         setEmailCheckEnable(true)
     }
@@ -190,230 +206,229 @@ const Signup = () => {
     //     } else setSubmitEnable(false);
     // });
 
+    if(sendEmailStatus === 'pending'){
+        return <LoadingBar/>
+    }
+    if(createUserStatus === 'pending'){
+        return <LoadingBar/>
+    }
+
     return (
-        <>
-            {isLoading && (
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            )}
-            {/*{error && (*/}
-            {/*    <Alert variant={'danger'}>*/}
-            {/*        {error}*/}
-            {/*    </Alert>*/}
-            {/*)}*/}
 
-            <Container>
-                <Row className={"mt-5"}>
-                    <Col/>
-                    <Col xs={6}>
-                        <Form onSubmit={handleSubmit(createUserHandler)}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>이메일</Form.Label>
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        fontSize: "1rem",
-                                    }}
-                                >
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="이메일을 입력하세요"
-                                        // value={email}
-                                        // onChange={(e) => {
-                                        //     setEmail(e.target.value);
-                                        {...register('email', {required: true})}
+        <Container>
 
-                                    />
-                                    {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
-                                </div>
-                                <Button
-                                    className={"mt-3"}
-                                    disabled={emailDisable}
-                                    onClick={handleSubmit(sendEmailHandler)}
-                                >
-                                    이메일 인증하기
-                                </Button>
-                            </Form.Group>
-
-                            {emailCheckEnable ? (
+            {/*{ === true ? (*/}
+                <>
+                    <Row className={"mt-5"}>
+                        <Col/>
+                        <Col xs={6}>
+                            <Form onSubmit={handleSubmit(createUserHandler)}>
                                 <Form.Group className="mb-3">
-                                    <div style={{display: "flex", flexDirection: "row"}}>
+                                    <Form.Label>이메일</Form.Label>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            fontSize: "1rem",
+                                        }}
+                                    >
                                         <Form.Control
-                                            type="text"
-                                            placeholder="인증코드를 입력하세요"
-                                            // value={code}
+                                            type="email"
+                                            placeholder="이메일을 입력하세요"
+                                            // value={email}
                                             // onChange={(e) => {
-                                            //     setCode(e.target.value);
-                                            // }}
-                                            {...register('code')}
+                                            //     setEmail(e.target.value);
+                                            {...register('email', {required: true})}
+
                                         />
                                         {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
                                     </div>
                                     <Button
                                         className={"mt-3"}
                                         disabled={emailDisable}
-                                        onClick={handleSubmit(checkEmailHandler)}
+                                        onClick={handleSubmit(sendEmailHandler)}
                                     >
-                                        코드 인증하기
+                                        이메일 인증하기
                                     </Button>
                                 </Form.Group>
-                            ) : null}
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>비밀번호</Form.Label>
-                                <div style={{color: "grey", fontSize: "0.75rem"}}>
-                                    영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
-                                </div>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="비밀번호를 입력하세요"
-                                    // value={password}
-                                    // onChange={(e) => setPassword(e.target.value)}
-                                    {...register('password')}
-                                />
-                            </Form.Group>
+                                {emailCheckEnable ? (
+                                    <Form.Group className="mb-3">
+                                        <div style={{display: "flex", flexDirection: "row"}}>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="인증코드를 입력하세요"
+                                                // value={code}
+                                                // onChange={(e) => {
+                                                //     setCode(e.target.value);
+                                                // }}
+                                                {...register('code')}
+                                            />
+                                            {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
+                                        </div>
+                                        <Button
+                                            className={"mt-3"}
+                                            disabled={emailDisable}
+                                            onClick={handleSubmit(checkEmailHandler)}
+                                        >
+                                            코드 인증하기
+                                        </Button>
+                                    </Form.Group>
+                                ) : null}
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>비밀번호확인</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="동일한 비밀번호를 한번 더 입력하세요"
-                                    // value={passwordcheck}
-                                    // onChange={(e) => setPasswordcheck(e.target.value)}
-                                    {...register('passwordcheck')}
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Label>비밀번호</Form.Label>
+                                    <div style={{color: "grey", fontSize: "0.75rem"}}>
+                                        영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
+                                    </div>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="비밀번호를 입력하세요"
+                                        // value={password}
+                                        // onChange={(e) => setPassword(e.target.value)}
+                                        {...register('password')}
+                                    />
+                                </Form.Group>
 
-                                />
-                            </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Label>비밀번호확인</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="동일한 비밀번호를 한번 더 입력하세요"
+                                        // value={passwordcheck}
+                                        // onChange={(e) => setPasswordcheck(e.target.value)}
+                                        {...register('passwordcheck')}
 
-                            <Form.Group className="mb-3" controlId="formBasicUsername">
-                                <Form.Label>유저이름</Form.Label>
-                                <div style={{display: "flex", flexDirection: "row"}}>
+                                    />
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="formBasicUsername">
+                                    <Form.Label>유저이름</Form.Label>
+                                    <div style={{display: "flex", flexDirection: "row"}}>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="유저이름을 입력하세요"
+                                            // value={username}
+                                            // onChange={(e) => {
+                                            //     setUsername(e.target.value);
+                                            // }}
+                                            {...register('userName')}
+                                        />
+                                        {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
+                                    </div>
+                                </Form.Group>
+
+                                <Form.Group className="mb-3">
+                                    <Form.Label>닉네임</Form.Label>
+                                    <div style={{color: "grey", fontSize: "0.75rem"}}>
+                                        다른 유저와 겹치지 않도록 입력해주세요. (2~20자).
+                                    </div>
                                     <Form.Control
                                         type="text"
-                                        placeholder="유저이름을 입력하세요"
-                                        // value={username}
-                                        // onChange={(e) => {
-                                        //     setUsername(e.target.value);
-                                        // }}
-                                        {...register('userName')}
+                                        placeholder="별명을 입력하세요 (2~20글자)"
+                                        // value={nickname}
+                                        // onChange={(e) => setNickname(e.target.value)}
+                                        {...register('nickName')}
                                     />
-                                    {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
+                                </Form.Group>
+
+                                <Form.Group className="mb-3">
+                                    <Form.Label>전화번호</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="전화번호를 입력하세요"
+                                        // value={phonenumber}
+                                        // onChange={(e) => setPhonenumber(e.target.value)}
+                                        {...register('phone')}
+                                    />
+                                </Form.Group>
+
+                                <Form.Label>약관동의</Form.Label>
+                                <div
+                                    style={{
+                                        border: "1px solid #c3cacd",
+                                        padding: "0 15px",
+                                        marginBottom: "30px",
+                                    }}
+                                >
+                                    {["checkbox"].map((type) => (
+                                        <div key={`default-${type}`} className="mb-3">
+                                            {/*<Form.Check style={{marginTop:'20px',marginBottom: '5px',fontSize:'0.75rem'}}*/}
+                                            {/*            id={'전체'}*/}
+                                            {/*            label={'전체동의'}*/}
+                                            {/*            onChange={(e)=>checkAll}*/}
+                                            {/*/>*/}
+
+                                            <Form.Check
+                                                style={{
+                                                    marginTop: "20px",
+                                                    marginBottom: "5px",
+                                                    fontSize: "0.75rem",
+                                                }}
+                                                type={type}
+                                                id={"나이약관"}
+                                                label={"14세 이상입니다(필수)"}
+                                                // value={check1}
+                                                // onChange={(e) => setCheck1(true)}
+                                                {...register('consent.overTwenty')}
+                                            />
+
+                                            <Form.Check
+                                                style={{marginBottom: "5px", fontSize: "0.75rem"}}
+                                                type={type}
+                                                id={"이용약관"}
+                                                label={"이용약관(필수)"}
+                                                // value={check2}
+                                                // onChange={(e) => setCheck2(true)}
+                                                {...register('consent.agreeOfTerm')}
+                                            />
+
+                                            <Form.Check
+                                                style={{marginBottom: "5px", fontSize: "0.75rem"}}
+                                                type={type}
+                                                id={"개인정보"}
+                                                label={"개인정보수집 및 이용동의(필수)"}
+                                                // value={check3}
+                                                // onChange={(e) => setCheck3(true)}
+                                                {...register('consent.agreeOfPersonalInfo')}
+                                            />
+
+                                            <Form.Check
+                                                style={{marginBottom: "5px", fontSize: "0.75rem"}}
+                                                type={type}
+                                                id={"마케팅"}
+                                                label={"개인정보 마케팅 활용 동의(선택)"}
+                                                // value={check4}
+                                                // onChange={(e) => setCheck4(true)}
+                                                {...register('consent.agreeOfMarketing')}
+                                            />
+
+                                            <Form.Check
+                                                style={{marginBottom: "1px", fontSize: "0.75rem"}}
+                                                type={type}
+                                                id={"이벤트"}
+                                                label={"이벤트, 특가 알림 및 SMS 등 수신(선택)"}
+                                                // value={check5}
+                                                // onChange={(e) => setCheck5(true)}
+                                                {...register('consent.etc')}
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
-                            </Form.Group>
 
-                            <Form.Group className="mb-3">
-                                <Form.Label>닉네임</Form.Label>
-                                <div style={{color: "grey", fontSize: "0.75rem"}}>
-                                    다른 유저와 겹치지 않도록 입력해주세요. (2~20자).
-                                </div>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="별명을 입력하세요 (2~20글자)"
-                                    // value={nickname}
-                                    // onChange={(e) => setNickname(e.target.value)}
-                                    {...register('nickName')}
-                                />
-                            </Form.Group>
+                                <Button type="submit" disabled={submitEnable}>
+                                    회원가입하기
+                                </Button>
 
-                            <Form.Group className="mb-3">
-                                <Form.Label>전화번호</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="전화번호를 입력하세요"
-                                    // value={phonenumber}
-                                    // onChange={(e) => setPhonenumber(e.target.value)}
-                                    {...register('phone')}
-                                />
-                            </Form.Group>
-
-                            <Form.Label>약관동의</Form.Label>
-                            <div
-                                style={{
-                                    border: "1px solid #c3cacd",
-                                    padding: "0 15px",
-                                    marginBottom: "30px",
-                                }}
-                            >
-                                {["checkbox"].map((type) => (
-                                    <div key={`default-${type}`} className="mb-3">
-                                        {/*<Form.Check style={{marginTop:'20px',marginBottom: '5px',fontSize:'0.75rem'}}*/}
-                                        {/*            id={'전체'}*/}
-                                        {/*            label={'전체동의'}*/}
-                                        {/*            onChange={(e)=>checkAll}*/}
-                                        {/*/>*/}
-
-                                        <Form.Check
-                                            style={{
-                                                marginTop: "20px",
-                                                marginBottom: "5px",
-                                                fontSize: "0.75rem",
-                                            }}
-                                            type={type}
-                                            id={"나이약관"}
-                                            label={"14세 이상입니다(필수)"}
-                                            // value={check1}
-                                            // onChange={(e) => setCheck1(true)}
-                                            {...register('consent.overTwenty')}
-                                        />
-
-                                        <Form.Check
-                                            style={{marginBottom: "5px", fontSize: "0.75rem"}}
-                                            type={type}
-                                            id={"이용약관"}
-                                            label={"이용약관(필수)"}
-                                            // value={check2}
-                                            // onChange={(e) => setCheck2(true)}
-                                            {...register('consent.agreeOfTerm')}
-                                        />
-
-                                        <Form.Check
-                                            style={{marginBottom: "5px", fontSize: "0.75rem"}}
-                                            type={type}
-                                            id={"개인정보"}
-                                            label={"개인정보수집 및 이용동의(필수)"}
-                                            // value={check3}
-                                            // onChange={(e) => setCheck3(true)}
-                                            {...register('consent.agreeOfPersonalInfo')}
-                                        />
-
-                                        <Form.Check
-                                            style={{marginBottom: "5px", fontSize: "0.75rem"}}
-                                            type={type}
-                                            id={"마케팅"}
-                                            label={"개인정보 마케팅 활용 동의(선택)"}
-                                            // value={check4}
-                                            // onChange={(e) => setCheck4(true)}
-                                            {...register('consent.agreeOfMarketing')}
-                                        />
-
-                                        <Form.Check
-                                            style={{marginBottom: "1px", fontSize: "0.75rem"}}
-                                            type={type}
-                                            id={"이벤트"}
-                                            label={"이벤트, 특가 알림 및 SMS 등 수신(선택)"}
-                                            // value={check5}
-                                            // onChange={(e) => setCheck5(true)}
-                                            {...register('consent.etc')}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-
-                            <Button type="submit" disabled={submitEnable}>
-                                회원가입하기
-                            </Button>
-
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    marginTop: "30px",
-                                    marginBottom: "50px",
-                                    fontSize: "0.9rem",
-                                }}
-                            >
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        marginTop: "30px",
+                                        marginBottom: "50px",
+                                        fontSize: "0.9rem",
+                                    }}
+                                >
               <span>
                 이미 아이디가 있으신가요?
                 <Link
@@ -427,15 +442,17 @@ const Signup = () => {
                   로그인
                 </Link>
               </span>{" "}
-                            </div>
-                        </Form>
-                    </Col>
-                    <Col/>
-                </Row>
+                                </div>
+                            </Form>
+                        </Col>
+                        <Col/>
+                    </Row>
 
-                <Row/>
-            </Container>
-        </>
+                    <Row/>
+                </>
+            {/*) : null}*/}
+        </Container>
+
     );
 };
 
