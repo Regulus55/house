@@ -12,7 +12,8 @@ const useSendEmail = () => {
     return useMutation({
         mutationFn: (userInput) => sendEmail(userInput),
         onSuccess: (data) => {
-        console.log('dddd====',data)
+        // console.log('===sendEmail의Data',data)
+        //     ^^ success, code:201 같은 데이터임
             alert('메일보냈음')
         }
     })

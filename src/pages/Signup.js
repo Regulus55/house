@@ -5,6 +5,7 @@ import axios from "axios";
 import {useForm} from "react-hook-form";
 import useCreateUser from "../hooks/useCreateUser";
 import useSendEmail from "../hooks/useSendEmail";
+import useCheckEmail from "../hooks/useCheckEmail";
 
 const Signup = () => {
     const {
@@ -29,7 +30,9 @@ const Signup = () => {
     const [emailCheckEnable, setEmailCheckEnable] = useState(false);
     const [submitEnable, setSubmitEnable] = useState(false);
 
-    const {mutateAsync, data, error} = useSendEmail()
+    const {mutateAsync: sendEmailMutate, data: sendEmailData, error: sendEmailError} = useSendEmail()
+    const {mutateAsync: checkEmailMutate, data: checkEmailData, error: checkEmailError} = useCheckEmail()
+    const {isLoading} = useCreateUser()
 
     // 이 항목들은 스웨거 api 의 리퀘스트 바디에있는 항목들을 참고해서 만듦
 
@@ -50,13 +53,24 @@ const Signup = () => {
     //     }
     // };
 
+
     const sendEmailHandler = async (values) => {
         console.log('=======',values);
         const {email} = values
         console.log('=+++++++++++++',email)
-        await mutateAsync({email})
+        await sendEmailMutate({email})
+        setEmailCheckEnable(true)
     }
 
+    const checkEmailHandler = async (values) => {
+        // console.log('===체크이메일 밸류',values)
+        // ^^ 이메일, 코드 , 닉넴, 패스워드등 다 들어있음
+        const {email, code} = values
+        // console.log('=-=-=-=-=-=',email, code)
+        // ^^ 이메일이랑 코드만 딱 보여줌
+        await checkEmailMutate({email, code})
+    }
+    
     // const {isLoading, mutateAsync, data, error} = useCreateUser()
     // console.log('data======', data)
     //
@@ -144,11 +158,11 @@ const Signup = () => {
 
     return (
         <>
-            {/*{isLoading && (*/}
-            {/*    <Spinner animation="border" role="status">*/}
-            {/*        <span className="visually-hidden">Loading...</span>*/}
-            {/*    </Spinner>*/}
-            {/*)}*/}
+            {isLoading && (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            )}
             {/*{error && (*/}
             {/*    <Alert variant={'danger'}>*/}
             {/*        {error}*/}
@@ -175,7 +189,7 @@ const Signup = () => {
                                         // value={email}
                                         // onChange={(e) => {
                                         //     setEmail(e.target.value);
-                                        {...register('email')}
+                                        {...register('email',{required: true})}
 
                                     />
                                     {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
@@ -195,17 +209,18 @@ const Signup = () => {
                                         <Form.Control
                                             type="text"
                                             placeholder="인증코드를 입력하세요"
-                                            value={code}
-                                            onChange={(e) => {
-                                                setCode(e.target.value);
-                                            }}
+                                            // value={code}
+                                            // onChange={(e) => {
+                                            //     setCode(e.target.value);
+                                            // }}
+                                            {...register('code')}
                                         />
                                         {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
                                     </div>
                                     <Button
                                         className={"mt-3"}
                                         disabled={emailDisable}
-                                        onClick={handleSubmit(sendEmailHandler)}
+                                        onClick={handleSubmit(checkEmailHandler)}
                                     >
                                         코드 인증하기
                                     </Button>

@@ -18,7 +18,7 @@ const useLoginUser = () => {
                 // ^^ 데이터를 담는거
                 queryKey: ['user']
             })
-            console.log('--------------------',data.token)
+            console.log('+++++useLoginpageData',data.token)
             localStorage.setItem('token', data.token)
             navigate('/profile')
         },

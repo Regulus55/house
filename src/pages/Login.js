@@ -46,15 +46,15 @@ const Login = () => {
   // };
 
     const {isLoading, mutateAsync, data, error} = useLoginUser()
-    console.log('data======',data)
+    // console.log('++++loginPageData',data.token)
 
     const submitHandler = async (values) => {
-        console.log("++++++++",values)
+        console.log("+++values",values)
         await mutateAsync(values)
        // await localStorage.setItem("token", data.token)
-        // if(localStorage.getItem('token')){
-        //      navigate('/profile')
-        // }
+       //  if(localStorage.getItem('token')){
+       //       navigate('/profile')
+       //  }
     }
   //
   // useEffect(() => {

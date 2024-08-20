@@ -18,7 +18,7 @@ const getProfileInfo = async () => {
             config
         );
         console.log("profileInfo", data.body);
-        const {agreeOfMarketing, etc} = data.body.consent;
+        // const {agreeOfMarketing, etc} = data.body.consent;
         return data.body
 
 

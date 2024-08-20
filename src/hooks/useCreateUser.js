@@ -3,10 +3,9 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 const createUser = async (userInput) => {
-    // const {data} = await axios.post('http://localhost:7070/api/auth/signup', userInput)
+    const {data} = await axios.post('http://localhost:7070/api/auth/signup', userInput)
     console.log(userInput);
-    // return data.body
-
+    return data.body
 }
 
 const useCreateUser = () => {
@@ -19,10 +18,10 @@ const useCreateUser = () => {
             queryClient.invalidateQueries({
                 queryKey: ['user']
             })
-            console.log('data=======',data)
+            console.log('====use회원가입data',data)
         },
         onError: (error) => {
-            console.log('+++++error+++++',error)
+            console.log('+++++회원가입페이지error+++++',error)
         }
     })
 }
