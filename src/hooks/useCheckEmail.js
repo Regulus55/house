@@ -13,7 +13,8 @@ const useCheckEmail = () => {
     return useMutation({
         mutationFn: (userInput) => checkEmail(userInput),
         onSuccess: (data) => {
-            console.log('===cehckEmail의Data', data)
+            // console.log('===cehckEmail의Data', data)
+            // ^^ body:true message: success 로 나옴
             alert('email 인증 완료')
         }
     })

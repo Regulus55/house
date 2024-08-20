@@ -9,7 +9,7 @@ import useCheckEmail from "../hooks/useCheckEmail";
 
 const Signup = () => {
     const {
-        register, handleSubmit, formState: {errors}
+        register, watch, handleSubmit, formState: {errors}
     } = useForm();
 
     const navigate = useNavigate();
@@ -21,18 +21,24 @@ const Signup = () => {
     const [code, setCode] = useState("");
     // ^^이메일 보낸거 인증하는거
     const [phonenumber, setPhonenumber] = useState("");
-    const [check1, setCheck1] = useState(false);
-    const [check2, setCheck2] = useState(false);
-    const [check3, setCheck3] = useState(false);
-    const [check4, setCheck4] = useState(false);
-    const [check5, setCheck5] = useState(false);
+    // const [check1, setCheck1] = useState(false);
+    // const [check2, setCheck2] = useState(false);
+    // const [check3, setCheck3] = useState(false);
+    // const [check4, setCheck4] = useState(false);
+    // const [check5, setCheck5] = useState(false);
     const [emailDisable, setEmailDisable] = useState(false);
     const [emailCheckEnable, setEmailCheckEnable] = useState(false);
-    const [submitEnable, setSubmitEnable] = useState(false);
+    const [submitEnable, setSubmitEnable] = useState(true);
 
     const {mutateAsync: sendEmailMutate, data: sendEmailData, error: sendEmailError} = useSendEmail()
     const {mutateAsync: checkEmailMutate, data: checkEmailData, error: checkEmailError} = useCheckEmail()
-    const {isLoading} = useCreateUser()
+    const {
+        isLoading,
+        mutateAsync: createUserMutate,
+        isSuccess,
+        data: createUserData,
+        error: createUserError
+    } = useCreateUser()
 
     // 이 항목들은 스웨거 api 의 리퀘스트 바디에있는 항목들을 참고해서 만듦
 
@@ -55,9 +61,9 @@ const Signup = () => {
 
 
     const sendEmailHandler = async (values) => {
-        console.log('=======',values);
+        console.log('=======', values);
         const {email} = values
-        console.log('=+++++++++++++',email)
+        console.log('=+++++++++++++', email)
         await sendEmailMutate({email})
         setEmailCheckEnable(true)
     }
@@ -69,8 +75,38 @@ const Signup = () => {
         // console.log('=-=-=-=-=-=',email, code)
         // ^^ 이메일이랑 코드만 딱 보여줌
         await checkEmailMutate({email, code})
+        setEmailCheckEnable(false)
+        setSubmitEnable(false)
     }
-    
+
+    const createUserHandler = async (e) => {
+        // e.preventDefault()
+        console.log('회원가입의 밸류', e)
+        if (!e.email || !e.password || !e.phone) {
+            alert('빈칸을 채워주세요')
+        } else if (!e.consent.overTwenty && !e.agreeOfTerm && !e.agreeOfPersonalInfo) {
+            alert('필수항목 동의해주세요')
+        } else if (e.password !== e.passwordcheck) {
+            alert('비번이 일치하지 않아요')
+        } else {
+            await createUserMutate({
+                userName: e.userName,
+                nickName: e.nickName,
+                email: e.email,
+                phone: e.phone,
+                password: e.password,
+                consent: {
+                    overTwenty: e.consent.check1,
+                    agreeOfTerm: e.consent.check2,
+                    agreeOfPersonalInfo: e.consent.check3,
+                    agreeOfMarketing: e.consent.check4,
+                    etc: e.consent.check5
+                }
+            });
+            alert('회원가입완료')
+        }
+    }
+
     // const {isLoading, mutateAsync, data, error} = useCreateUser()
     // console.log('data======', data)
     //
@@ -142,13 +178,11 @@ const Signup = () => {
     //     }
     // };
 
-    const checkAll = (e) => {
-        setCheck1(true);
-        setCheck2(true);
-        setCheck3(true);
-        setCheck4(true);
-        setCheck5(true);
-    };
+    const overTwenty = watch('consent.overTwenty', false);
+    const agreeOfTerm = watch('consent.agreeOfTerm', false);
+    const agreeOfPersonalInfo = watch('consent.agreeOfPersonalInfo', false);
+    const agreeOfMarketing = watch('consent.agreeOfMarketing', false);
+    const etc = watch('consent.etc', false);
 
     // useEffect(() => {
     //     if (!(check1 === true && check2 === true && check3 === true)) {
@@ -173,7 +207,7 @@ const Signup = () => {
                 <Row className={"mt-5"}>
                     <Col/>
                     <Col xs={6}>
-                        <Form >
+                        <Form onSubmit={handleSubmit(createUserHandler)}>
                             <Form.Group className="mb-3">
                                 <Form.Label>이메일</Form.Label>
                                 <div
@@ -189,7 +223,7 @@ const Signup = () => {
                                         // value={email}
                                         // onChange={(e) => {
                                         //     setEmail(e.target.value);
-                                        {...register('email',{required: true})}
+                                        {...register('email', {required: true})}
 
                                     />
                                     {/*<span style={{color: 'grey', margin: 'auto'}}>@</span><DropEmail/>*/}
@@ -248,7 +282,7 @@ const Signup = () => {
                                     placeholder="동일한 비밀번호를 한번 더 입력하세요"
                                     // value={passwordcheck}
                                     // onChange={(e) => setPasswordcheck(e.target.value)}
-                                    {...register('passwordCheck')}
+                                    {...register('passwordcheck')}
 
                                 />
                             </Form.Group>
@@ -319,8 +353,9 @@ const Signup = () => {
                                             type={type}
                                             id={"나이약관"}
                                             label={"14세 이상입니다(필수)"}
-                                            value={check1}
-                                            onChange={(e) => setCheck1(true)}
+                                            // value={check1}
+                                            // onChange={(e) => setCheck1(true)}
+                                            {...register('consent.overTwenty')}
                                         />
 
                                         <Form.Check
@@ -328,8 +363,9 @@ const Signup = () => {
                                             type={type}
                                             id={"이용약관"}
                                             label={"이용약관(필수)"}
-                                            value={check2}
-                                            onChange={(e) => setCheck2(true)}
+                                            // value={check2}
+                                            // onChange={(e) => setCheck2(true)}
+                                            {...register('consent.agreeOfTerm')}
                                         />
 
                                         <Form.Check
@@ -337,8 +373,9 @@ const Signup = () => {
                                             type={type}
                                             id={"개인정보"}
                                             label={"개인정보수집 및 이용동의(필수)"}
-                                            value={check3}
-                                            onChange={(e) => setCheck3(true)}
+                                            // value={check3}
+                                            // onChange={(e) => setCheck3(true)}
+                                            {...register('consent.agreeOfPersonalInfo')}
                                         />
 
                                         <Form.Check
@@ -346,8 +383,9 @@ const Signup = () => {
                                             type={type}
                                             id={"마케팅"}
                                             label={"개인정보 마케팅 활용 동의(선택)"}
-                                            value={check4}
-                                            onChange={(e) => setCheck4(true)}
+                                            // value={check4}
+                                            // onChange={(e) => setCheck4(true)}
+                                            {...register('consent.agreeOfMarketing')}
                                         />
 
                                         <Form.Check
@@ -355,8 +393,9 @@ const Signup = () => {
                                             type={type}
                                             id={"이벤트"}
                                             label={"이벤트, 특가 알림 및 SMS 등 수신(선택)"}
-                                            value={check5}
-                                            onChange={(e) => setCheck5(true)}
+                                            // value={check5}
+                                            // onChange={(e) => setCheck5(true)}
+                                            {...register('consent.etc')}
                                         />
                                     </div>
                                 ))}

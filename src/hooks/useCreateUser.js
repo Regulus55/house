@@ -19,6 +19,7 @@ const useCreateUser = () => {
                 queryKey: ['user']
             })
             console.log('====use회원가입data',data)
+            navigate('/login')
         },
         onError: (error) => {
             console.log('+++++회원가입페이지error+++++',error)
