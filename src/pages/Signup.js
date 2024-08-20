@@ -84,7 +84,7 @@ const Signup = () => {
         console.log('회원가입의 밸류', e)
         if (!e.email || !e.password || !e.phone) {
             alert('빈칸을 채워주세요')
-        } else if (!e.consent.overTwenty && !e.agreeOfTerm && !e.agreeOfPersonalInfo) {
+        } else if (!e.consent.overTwenty || !e.consent.agreeOfTerm || !e.consent.agreeOfPersonalInfo) {
             alert('필수항목 동의해주세요')
         } else if (e.password !== e.passwordcheck) {
             alert('비번이 일치하지 않아요')
@@ -96,11 +96,11 @@ const Signup = () => {
                 phone: e.phone,
                 password: e.password,
                 consent: {
-                    overTwenty: e.consent.check1,
-                    agreeOfTerm: e.consent.check2,
-                    agreeOfPersonalInfo: e.consent.check3,
-                    agreeOfMarketing: e.consent.check4,
-                    etc: e.consent.check5
+                    overTwenty: e.consent.overTwenty,
+                    agreeOfTerm: e.consent.agreeOfTerm,
+                    agreeOfPersonalInfo: e.consent.agreeOfPersonalInfo,
+                    agreeOfMarketing: e.consent.agreeOfMarketing,
+                    etc: e.consent.etc
                 }
             });
             alert('회원가입완료')
