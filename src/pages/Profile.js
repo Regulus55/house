@@ -137,7 +137,7 @@ const Profile = () => {
                                                     // className="mx-auto"
                                                 >
                                                     개인정보
-                                                    {profileInfo.profile === null ? " 생성" : " 업데이트"}
+                                                    {profileInfo.profile === null  ? " 생성" : " 업데이트"}
                                                 </Button>
 
                                                 <Button

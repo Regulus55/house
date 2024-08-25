@@ -4,6 +4,7 @@ import {Button, Card, Col, Container, Row, Form, Dropdown, Spinner, Alert} from 
 import {Link, useNavigate} from "react-router-dom";
 import {ViewContainer} from "../components";
 import usePrivacy from "../hooks/usePrivacy";
+import {useForm} from "react-hook-form";
 
 const Privacy = () => {
     const navigate = useNavigate();
@@ -30,6 +31,12 @@ const Privacy = () => {
     const [selfIntroduce, setSelfIntroduce] = useState('')
 
     const {isLoading, isSuccess, data, error} = usePrivacy()
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            bornArea: data?.bornArea || "", // 데이터가 있으면 그 값을, 없으면 빈 문자열
+        },
+    });
 
     // const getProfileInfo = async () => {
     //     try {
@@ -174,6 +181,9 @@ const Privacy = () => {
         }
     }
 
+
+    console.log(data)
+
     useEffect(() => {
         // getProfileInfo()
     }, []);
@@ -190,7 +200,7 @@ const Privacy = () => {
                     {error}
                 </Alert>
             )}
-            {isSuccess && data && (
+            {isSuccess && (
                 <ViewContainer>
                     <Row>
                         <Col/>
@@ -530,8 +540,9 @@ const Privacy = () => {
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="태어난 곳을 입력하세요"
-                                                    value={data?.bornArea}
-                                                    onChange={(e) => setBornArea(e.target.value)}
+                                                    // value={data?.bornArea}
+                                                    // onChange={(e) => setBornArea(e.target.value)}
+                                                    {...register("bornArea")}
                                                 />
                                             </Form.Group>
 
