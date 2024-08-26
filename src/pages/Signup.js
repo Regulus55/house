@@ -9,9 +9,23 @@ import useCheckEmail from "../hooks/useCheckEmail";
 import {LoadingBar} from "../components";
 
 const Signup = () => {
-    const {
-        register, watch, handleSubmit, formState: {errors}
-    } = useForm();
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+        defaultValues: {
+            userName: '',
+            nickName: '',
+            email: '',
+            phone: '',
+            password: '',
+            passwordcheck: '',
+            consent: {
+                overTwenty: false,
+                agreeOfTerm: false,
+                agreeOfPersonalInfo: false,
+                agreeOfMarketing: false,
+                etc: false
+            }
+        }
+    });
 
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
@@ -95,29 +109,23 @@ const Signup = () => {
         setSubmitEnable(false)
     }
 
-    const createUserHandler = async (e) => {
+    const createUserHandler = async (values) => {
         // e.preventDefault()
-        console.log('회원가입의 밸류', e)
-        if (!e.email || !e.password || !e.phone) {
+        console.log('회원가입의 밸류', values)
+        if (!values.email || !values.password || !values.phone) {
             alert('빈칸을 채워주세요')
-        } else if (!e.consent.overTwenty || !e.consent.agreeOfTerm || !e.consent.agreeOfPersonalInfo) {
+        } else if (!values.consent.overTwenty || !values.consent.agreeOfTerm || !values.consent.agreeOfPersonalInfo) {
             alert('필수항목 동의해주세요')
-        } else if (e.password !== e.passwordcheck) {
+        } else if (values.password !== values.passwordcheck) {
             alert('비번이 일치하지 않아요')
         } else {
             await createUserMutate({
-                userName: e.userName,
-                nickName: e.nickName,
-                email: e.email,
-                phone: e.phone,
-                password: e.password,
-                consent: {
-                    overTwenty: e.consent.overTwenty,
-                    agreeOfTerm: e.consent.agreeOfTerm,
-                    agreeOfPersonalInfo: e.consent.agreeOfPersonalInfo,
-                    agreeOfMarketing: e.consent.agreeOfMarketing,
-                    etc: e.consent.etc
-                }
+                userName: values.userName,
+                nickName: values.nickName,
+                email: values.email,
+                phone: values.phone,
+                password: values.password,
+                consent
             });
             alert('회원가입완료')
         }
@@ -194,11 +202,73 @@ const Signup = () => {
     //     }
     // };
 
-    const overTwenty = watch('consent.overTwenty', false);
-    const agreeOfTerm = watch('consent.agreeOfTerm', false);
-    const agreeOfPersonalInfo = watch('consent.agreeOfPersonalInfo', false);
-    const agreeOfMarketing = watch('consent.agreeOfMarketing', false);
-    const etc = watch('consent.etc', false);
+    const agreements = [
+        {id: 1, label: "14세 이상입니다(필수)", key: "overTwenty"},
+        {id: 2, label: "이용약관(필수)", key: "agreeOfTerm"},
+        {id: 3, label: "개인정보수집 및 이용동의(필수)", key: "agreeOfPersonalInfo"},
+        {id: 4, label: "개인정보 마케팅 활용 동의(선택)", key: "agreeOfMarketing"},
+        {id: 5, label: "이벤트, 특가 알림 및 SMS 등 수신(선택)", key: "etc"}
+    ];
+
+    const watchConsent = watch('consent');
+    const selectAllChecked = Object.values(watchConsent).every(value => value);
+
+    const [checkItems, setCheckItems] = useState([]);
+    const [consent, setConsent] = useState({
+        overTwenty: false,
+        agreeOfTerm: false,
+        agreeOfPersonalInfo: false,
+        agreeOfMarketing: false,
+        etc: false
+    });
+
+    const handleSingleCheck = (checked, id, key) => {
+        setValue(`consent.${key}`, checked)
+        if (checked) {
+            setCheckItems(prev => [...prev, id]);
+            setConsent(prev => ({
+                ...prev,
+                [key]: true
+            }));
+        } else {
+            setCheckItems(checkItems.filter((el) => el !== id));
+            setConsent(prev => ({
+                ...prev,
+                [key]: false
+            }));
+        }
+    };
+
+    const handleAllCheck = (checked) => {
+        agreements.forEach((item) => {
+            setValue(`consent.${item.key}`, checked); // react-hook-form 상태를 직접 업데이트
+        });
+        if (checked) {
+            const idArray = agreements.map((el) => el.id);
+            setCheckItems(idArray);
+            const newConsent = agreements.reduce((acc, cur) => {
+                acc[cur.key] = true;
+                return acc;
+            }, {});
+            setConsent(newConsent);
+        } else {
+            setCheckItems([]);
+            setConsent({
+                overTwenty: false,
+                agreeOfTerm: false,
+                agreeOfPersonalInfo: false,
+                agreeOfMarketing: false,
+                etc: false
+            });
+        }
+    };
+
+
+    // const overTwenty = watch('consent.overTwenty', false);
+    // const agreeOfTerm = watch('consent.agreeOfTerm', false);
+    // const agreeOfPersonalInfo = watch('consent.agreeOfPersonalInfo', false);
+    // const agreeOfMarketing = watch('consent.agreeOfMarketing', false);
+    // const etc = watch('consent.etc', false);
 
     // useEffect(() => {
     //     if (!(check1 === true && check2 === true && check3 === true)) {
@@ -209,9 +279,9 @@ const Signup = () => {
     if (sendEmailStatus === 'pending') {
         return <LoadingBar/>
     }
-    if (createUserStatus === 'pending') {
-        return <LoadingBar/>
-    }
+    // if (createUserStatus === 'pending') {
+    //     return <LoadingBar/>
+    // }
 
     return (
 
@@ -344,88 +414,34 @@ const Signup = () => {
                             </Form.Group>
 
                             <Form.Label>약관동의</Form.Label>
-                            <div
-                                style={{
-                                    border: "1px solid #c3cacd",
-                                    padding: "0 15px",
-                                    marginBottom: "30px",
-                                }}
-                            >
+                            <div style={{border: "1px solid #c3cacd", padding: "10px"}}>
+                                <Form.Check
+                                    type="checkbox"
+                                    id="select-all"
+                                    label="전체 선택"
+                                    onChange={(e) => handleAllCheck(e.target.checked)}
+                                    checked={checkItems.length === agreements.length}
+                                    className="mb-3"
+                                />
+<div style={{borderTop: "1px solid #c3cacd",marginBottom:'15px'}}/>
+                                {agreements.map((item) => (
                                     <Form.Check
-                                        style={{
-                                            marginTop: "20px",
-                                            fontSize: "1rem",
-                                        }}
-                                        id={"전체"}
-                                        label={"전체동의"}
-                                        // value={check1}
-                                        // onChange={(e) => setCheck1(true)}
-                                        {...register('consent.overTwenty', 'etc')}
+                                        key={item.id}
+                                        type="checkbox"
+                                        id={`agreement-${item.id}`}
+                                        label={item.label}
+                                        {...register(`consent.${item.key}`)}
+                                        onChange={(e) => handleSingleCheck(e.target.checked, item.id, item.key)}
+                                        checked={checkItems.includes(item.id)}
+                                        className="mb-2"
                                     />
-
-                                {["checkbox"].map((type) => (
-                                    <div key={`default-${type}`} className="mb-3">
-
-                                        <Form.Check
-                                            style={{
-                                                marginTop: "20px",
-                                                marginBottom: "5px",
-                                                fontSize: "0.75rem",
-                                            }}
-                                            type={type}
-                                            id={"나이약관"}
-                                            label={"14세 이상입니다(필수)"}
-                                            // value={check1}
-                                            // onChange={(e) => setCheck1(true)}
-                                            {...register('consent.overTwenty')}
-                                        />
-
-                                        <Form.Check
-                                            style={{marginBottom: "5px", fontSize: "0.75rem"}}
-                                            type={type}
-                                            id={"이용약관"}
-                                            label={"이용약관(필수)"}
-                                            // value={check2}
-                                            // onChange={(e) => setCheck2(true)}
-                                            {...register('consent.agreeOfTerm')}
-                                        />
-
-                                        <Form.Check
-                                            style={{marginBottom: "5px", fontSize: "0.75rem"}}
-                                            type={type}
-                                            id={"개인정보"}
-                                            label={"개인정보수집 및 이용동의(필수)"}
-                                            // value={check3}
-                                            // onChange={(e) => setCheck3(true)}
-                                            {...register('consent.agreeOfPersonalInfo')}
-                                        />
-
-                                        <Form.Check
-                                            style={{marginBottom: "5px", fontSize: "0.75rem"}}
-                                            type={type}
-                                            id={"마케팅"}
-                                            label={"개인정보 마케팅 활용 동의(선택)"}
-                                            // value={check4}
-                                            // onChange={(e) => setCheck4(true)}
-                                            {...register('consent.agreeOfMarketing')}
-                                        />
-
-                                        <Form.Check
-                                            style={{marginBottom: "1px", fontSize: "0.75rem"}}
-                                            type={type}
-                                            id={"이벤트"}
-                                            label={"이벤트, 특가 알림 및 SMS 등 수신(선택)"}
-                                            // value={check5}
-                                            // onChange={(e) => setCheck5(true)}
-                                            {...register('consent.etc')}
-                                        />
-                                    </div>
                                 ))}
                             </div>
-
-                            <Button type="submit" disabled={submitEnable}>
+                            <Button type="submit" disabled={false}>
                                 회원가입하기
                             </Button>
+
+                            {/*submitEnable*/}
 
                             <div
                                 style={{

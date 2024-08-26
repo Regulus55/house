@@ -32,11 +32,12 @@ const Privacy = () => {
 
     const {isLoading, isSuccess, data, error} = usePrivacy()
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const {register, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
             bornArea: data?.bornArea || "", // 데이터가 있으면 그 값을, 없으면 빈 문자열
         },
     });
+
 
     // const getProfileInfo = async () => {
     //     try {
@@ -185,8 +186,13 @@ const Privacy = () => {
     console.log(data)
 
     useEffect(() => {
-        // getProfileInfo()
-    }, []);
+        if (data && data.birth) {
+            const [year, month, day] = data.birth.split('-');
+            setBirthDate({year, month, day});
+        }
+
+        console.log('벌스', birthDate.month)
+    }, [data]);
 
     return (
         <>
@@ -540,9 +546,8 @@ const Privacy = () => {
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="태어난 곳을 입력하세요"
-                                                    // value={data?.bornArea}
-                                                    // onChange={(e) => setBornArea(e.target.value)}
-                                                    {...register("bornArea")}
+                                                    value={data?.bornArea}
+                                                    onChange={(e) => setBornArea(e.target.value)}
                                                 />
                                             </Form.Group>
 
@@ -587,11 +592,12 @@ const Privacy = () => {
                                                     </Col>
                                                     년
                                                     <Col>
-                                                        <Form.Select value={birthDate.month}
-                                                                     onChange={(e) => setBirthDate((prevBirthDate) => ({
-                                                                         ...prevBirthDate,
-                                                                         month: e.target.value
-                                                                     }))}
+                                                        <Form.Select
+                                                            value={birthDate.month}
+                                                            onChange={(e) => setBirthDate((prevBirthDate) => ({
+                                                                ...prevBirthDate,
+                                                                month: e.target.value
+                                                            }))}
                                                         >
                                                             <option>월</option>
                                                             {[...Array(12).keys()].map(i => (
@@ -603,11 +609,12 @@ const Privacy = () => {
                                                     </Col>
                                                     월
                                                     <Col>
-                                                        <Form.Select value={birthDate.day}
-                                                                     onChange={(e) => setBirthDate((prevBirthDate) => ({
-                                                                         ...prevBirthDate,
-                                                                         day: e.target.value
-                                                                     }))}
+                                                        <Form.Select
+                                                            value={birthDate.day}
+                                                            onChange={(e) => setBirthDate((prevBirthDate) => ({
+                                                                ...prevBirthDate,
+                                                                day: e.target.value
+                                                            }))}
                                                         >
                                                             <option>일</option>
                                                             {[...Array(31).keys()].map(i => (
