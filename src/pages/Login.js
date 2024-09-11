@@ -7,11 +7,13 @@ import styled from "styled-components";
 import {useForm} from "react-hook-form";
 import useLoginUser from "../hooks/useLoginUser";
 
+
 const Login = () => {
     const {
         register, handleSubmit, formState: {errors}
     } = useForm()
 
+  
   // const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -63,6 +65,11 @@ const Login = () => {
   //   // }
   // },[]);
 
+const socialLogin =  () => {
+   window.location.href = 'http://localhost:7070/api/auth/google'
+}
+
+
   return (
     <Container>
       <Row className={"mt-5"}>
@@ -78,6 +85,7 @@ const Login = () => {
           )}
         <Col></Col>
         <Col xs={6}>
+            <img src={'kakaoicon'}/>
           <Form onSubmit={handleSubmit(submitHandler)}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label></Form.Label>
@@ -150,7 +158,15 @@ const Login = () => {
                   justifyContent: "center",
                 }}
               >
+                  <Row>
+                  <div>SNS계정으로 간편 로그인/회원가입</div>
+                  <button onClick={()=>{
+                      socialLogin()
+                  }}>아이콘</button>
+                  </Row>
+                  <Row>
                 <span>비회원으로 주문 조회하기</span>
+                  </Row>
               </Col>
               <Col />
             </Row>
