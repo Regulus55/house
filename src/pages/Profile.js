@@ -15,13 +15,7 @@ const Profile = () => {
     const {isLoading, isSuccess, data, error} = useProfile()
 
     // const getProfileInfo = async () => {
-    //   try {
-    //     const token = localStorage.getItem("token");
-    //     const config = {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     };
+    //
     //     const result = await axios.get('http://localhost:7070/api/auth', config)
     //     console.log('profileInfo', result.data.body)
     //     setProfileInfo(result.data.body)
@@ -39,6 +33,21 @@ const Profile = () => {
     //     console.log("겟인포 에러", err);
     //   }
     // };
+
+    const getProfileInfo = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+            const {data} = await axios.get('http://localhost:7070/api/auth',config );
+            console.log("profileInfos",profileInfo);
+        } catch (error) {
+            console.error('데이터 가져오기 오류:', error);
+        }
+    };
 
     const editConsent = async () => {
         // 약관동의 내용 수정 함수
@@ -68,9 +77,8 @@ const Profile = () => {
         if (localStorage.getItem("token") === null) {
             navigate("/login");
         }
-        // getProfileInfo();
-
-    }, []);
+        getProfileInfo();
+        }, []);
 
     return (
         <>
@@ -137,7 +145,9 @@ const Profile = () => {
                                                     // className="mx-auto"
                                                 >
                                                     개인정보
-                                                    {profileInfo.profile === null  ? " 생성" : " 업데이트"}
+                                                    {profileInfo.body.profile === (null || undefined) ? " 생성" : " 업데이트"}
+                                                    {console.log('+_+_+_+_+_+_+',profileInfo.body.profile)}
+
                                                 </Button>
 
                                                 <Button

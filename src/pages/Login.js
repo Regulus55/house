@@ -8,6 +8,7 @@ import {useForm} from "react-hook-form";
 import useLoginUser from "../hooks/useLoginUser";
 import kakaoicon from '../kakaoicon.png'
 import googleicon from '../googleicon.png'
+import navericon from '../navericon.png'
 
 const Login = () => {
     const {
@@ -71,6 +72,11 @@ const Login = () => {
             img: kakaoicon,
             func: () => console.log('kakao')
         },
+        {
+            title: 'naver',
+            img: navericon,
+            func: () => console.log('naver')
+        }
     ]
 
     //
@@ -159,40 +165,39 @@ const Login = () => {
                                 </Button>
                             </Link>
                         </Form.Group>
-
-                        <Row>
-                            <Col/>
-                            <Col
-                                xs={3}
-                                style={{
-                                    width: "100%",
-                                    paddingTop: "50px",
-                                    borderTop: "1px solid black",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                <div>
-                                    <div className='mb-3' style={{fontSize: '0.8rem'}}>SNS계정으로 간편 로그인/회원가입</div>
-                                    <div className='mb-3'>
-                                        {socialInfos?.map((social) => (
-                                            <button onClick={social.func()}>
-                                                <img
-                                                    src={social.img}
-                                                    style={{width: "50px", height: "50px", marginRight: '1.2rem'}}
-                                                    alt={social.title}
-                                                />
-                                            </button>
-                                        ))}
-
-                                    </div>
-
-                                    <div>비회원으로 주문 조회하기</div>
-                                </div>
-                            </Col>
-                            <Col/>
-                        </Row>
                     </Form>
+
+                    <Row>
+                        <Col/>
+                        <Col
+                            xs={3}
+                            style={{
+                                width: "100%",
+                                paddingTop: "50px",
+                                borderTop: "1px solid black",
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <div style={{display:'flex',flexDirection:'column',alignItems:"center"}}>
+                                <div className='mb-3' style={{fontSize: '0.8rem'}}>SNS계정으로 간편 로그인/회원가입</div>
+                                <div className='mb-4'>
+                                    {socialInfos?.map((social) => (
+                                        <button onClick={social.func} style={{border: 'none', background: "white"}}>
+                                            <img
+                                                src={social.img}
+                                                style={{width: "50px", height: "50px", margin: '0 0.6rem 0 0.6rem'}}
+                                                alt={social.title}
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div>비회원으로 주문 조회하기</div>
+                            </div>
+                        </Col>
+                        <Col/>
+                    </Row>
                 </Col>
                 <Col></Col>
             </Row>
