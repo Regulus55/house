@@ -9,7 +9,7 @@ import useCheckEmail from "../hooks/useCheckEmail";
 import {LoadingBar} from "../components";
 
 const Signup = () => {
-    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+    const {register, handleSubmit, setValue, watch, formState: {errors}} = useForm({
         defaultValues: {
             userName: '',
             nickName: '',
@@ -423,7 +423,7 @@ const Signup = () => {
                                     checked={checkItems.length === agreements.length}
                                     className="mb-3"
                                 />
-<div style={{borderTop: "1px solid #c3cacd",marginBottom:'15px'}}/>
+                                <div style={{borderTop: "1px solid #c3cacd", marginBottom: '15px'}}/>
                                 {agreements.map((item) => (
                                     <Form.Check
                                         key={item.id}
@@ -437,7 +437,7 @@ const Signup = () => {
                                     />
                                 ))}
                             </div>
-                            <Button type="submit" disabled={false}>
+                            <Button type="submit" disabled={submitEnable} className={'mt-3'}>
                                 회원가입하기
                             </Button>
 
