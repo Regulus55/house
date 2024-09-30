@@ -70,7 +70,11 @@ const Profile = () => {
         }
         // getProfileInfo();
 
-    }, []);
+        if (data?.consent) {
+            setCheck4(data?.consent?.agreeOfMarketing);
+            setCheck5(data?.consent?.etc);
+        }
+    }, [data]);
 
     return (
         <>
@@ -200,14 +204,14 @@ const Profile = () => {
                                             <Form.Check // prettier-ignore
                                                 id={"마케팅"}
                                                 label={"개인정보 마케팅 활용 동의"}
-                                                checked={data?.consent?.agreeOfMarketing}
+                                                checked={check4}
                                                 onChange={(e) => setCheck4(e.target.checked)}
                                             />
 
                                             <Form.Check
                                                 id={"이벤트"}
                                                 label={"이벤트, 특가 알림 및 SMS 등 수신"}
-                                                checked={data?.consent?.etc}
+                                                checked={check5}
                                                 onChange={(e) => setCheck5(e.target.checked)}
                                             />
                                         </div>
