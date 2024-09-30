@@ -17,7 +17,7 @@
 ## 기술스택
 
 
-React, styled-components, javascript
+React, javascript(es6), react-bootstrap, styled-components,react-query, React-hook-form
 
 ## 주요 기능
 
