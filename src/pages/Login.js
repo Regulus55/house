@@ -8,6 +8,7 @@ import {useForm} from "react-hook-form";
 import useLoginUser from "../hooks/useLoginUser";
 import kakaoicon from '../kakaoicon.png'
 import googleicon from '../googleicon.png'
+import navericon from '../navericon.png'
 
 const Login = () => {
     const {
@@ -71,6 +72,11 @@ const Login = () => {
             img: kakaoicon,
             func: () => console.log('kakao')
         },
+        {
+            title: 'naver',
+            img: navericon,
+            func: () => console.log('naver')
+        }
     ]
 
     //

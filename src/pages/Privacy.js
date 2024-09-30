@@ -34,71 +34,9 @@ const Privacy = () => {
 
     const {register, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
-            bornArea: data?.bornArea || "", // 데이터가 있으면 그 값을, 없으면 빈 문자열
+            bornArea: data?.bornArea || "",
         },
     });
-
-
-    // const getProfileInfo = async () => {
-    //     try {
-    //         const token = localStorage.getItem('token');
-    //         const config = {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             }
-    //         }
-    //         const {data} = await axios.get('http://localhost:7070/api/auth', config)
-    //         // ^^유알엘에 필요한 정보가 담겨있고, config 에 authorization 정보를 담겨있다
-    //         console.log('getProfileInfo', data.body.profile)
-    //         const {
-    //             country,
-    //             bornArea,
-    //             addressOfHome,
-    //             activityArea,
-    //             age,
-    //             birth,
-    //             gender,
-    //             height,
-    //             bodyType,
-    //             drinking,
-    //             smoking,
-    //             bloodType,
-    //             mbtiType,
-    //             selfIntroduce
-    //         } = data.body.profile
-    //
-    //
-    //         setProfileInfo(data.body.profile)
-    //         setCountry(country)
-    //         setBornArea(bornArea)
-    //         setAddressOfHome(addressOfHome)
-    //         setActivityArea(activityArea)
-    //         setBirth(birth)
-    //         setBirthDate(prevBirth => ({
-    //             ...prevBirth,
-    //             year: new Date(birth).getFullYear(),
-    //             month: new Date(birth).getMonth() + 1,
-    //             day: new Date(birth).getDate()
-    //             // ^^^ birth 데이터 받아온걸 new Date 형태로 바꾸고, getFullYear 붙임.
-    //             // birth를 console 찍어보면 2009-05-11T15:00:00.000Z 이렇게나옴
-    //         }));
-    //         setAge(age)
-    //         setGender(gender)
-    //         setHeight(height)
-    //         setBodyType(bodyType)
-    //         setDrinking(drinking)
-    //         setSmoking(smoking)
-    //         setBloodType(bloodType)
-    //         setMbtiType(mbtiType)
-    //         setSelfIntroduce(selfIntroduce)
-    //
-    //     } catch (err) {
-    //         console.log('겟인포에러', err)
-    //     }
-    // }
-
-// console.log('ddddddd',Object.keys(profileInfo).length === 0)
-//     ^^^ 개인정보생성 데이터 없는지 알아보는 자바스크립트
 
     const createPrivacy = async (e) => {
         e.preventDefault()
