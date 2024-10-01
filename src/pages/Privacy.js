@@ -34,26 +34,27 @@ const Privacy = () => {
 
     const {register, handleSubmit, getValues, setValue, formState: {errors}} = useForm({
         defaultValues: {
-            country: data?.country || '',                     // 국가
-            bornArea: data?.bornArea || '',                    // 태어난 곳
-            addressOfHome: data?.addressOfHome || '',          // 집 주소
-            activityArea: data?.activityArea || '',            // 활동 지역
-            age: data?.age || '',                               // 나이
-            birth: data?.birth || '',                           // 생년월일
-            birthDate: {                                       // 생년월일(객체로 관리)
-                year: data?.birthDate?.year || new Date().getFullYear(),
-                month: data?.birthDate?.month || new Date().getMonth() + 1,
-                day: data?.birthDate?.day || new Date().getDate()
+            country: '',                     // 국가
+            bornArea: '',                    // 태어난 곳
+            addressOfHome: '',               // 집 주소
+            activityArea: '',                // 활동 지역
+            age: '',                          // 나이
+            birth: '',                        // 생년월일
+            birthDate: {                     // 생년월일(객체로 관리)
+                year: new Date().getFullYear(),
+                month: new Date().getMonth() + 1,
+                day: new Date().getDate()
             },
-            gender: data?.gender || '',                        // 성별
-            height: data?.height || '',                        // 키
-            bodyType: data?.bodyType || '',                    // 체형
-            drinking: data?.drinking || '',                    // 음주
-            smoking: data?.smoking || '',                      // 흡연
-            bloodType: data?.bloodType || '',                  // 혈액형
-            mbtiType: data?.mbtiType || '',                    // MBTI
-            selfIntroduce: data?.selfIntroduce || ''           // 자기소개
+            gender: '',                       // 성별
+            height: '',                       // 키
+            bodyType: '',                     // 체형
+            drinking: '',                     // 음주
+            smoking: '',                      // 흡연
+            bloodType: '',                   // 혈액형
+            mbtiType: '',                    // MBTI
+            selfIntroduce: ''                // 자기소개
         }
+
     });
 
 
@@ -100,8 +101,6 @@ const Privacy = () => {
     }
 
 
-
-
     const editPrivacy = async (values) => {
         try {
             const formattedMonth = String(values.birthDate.month).padStart(2, '0');
@@ -145,20 +144,21 @@ const Privacy = () => {
     }
 
     useEffect(() => {
-        if (data && data.birth) {
-            const [year, month, day] = data.birth.split('-');
-            setBirthDate({year, month, day});
-        }
         if (data) {
+            const formedBirth = new Date(data?.birth);  // birth 찍으면 1996-05-05~ 잘 나옴. 이걸 new Date 형태로 만듦
+            const formedYear = formedBirth.getFullYear(); // new Date로 만든거에서 year만 뽑음
+            const formedMonth = formedBirth.getMonth() + 1;
+            const formedDay = formedBirth.getDate();
+
             setValue('country', data.country || '');
             setValue('bornArea', data.bornArea || '');
             setValue('addressOfHome', data.addressOfHome || '');
             setValue('activityArea', data.activityArea || '');
             setValue('age', data.age || '');
             setValue('birth', data.birth || '');
-            setValue('birthDate.year', data.birthDate?.year || new Date().getFullYear());
-            setValue('birthDate.month', data.birthDate?.month || new Date().getMonth() + 1);
-            setValue('birthDate.day', data.birthDate?.day || new Date().getDate());
+            setValue('birthDate.year', formedYear || new Date().getFullYear());
+            setValue('birthDate.month', formedMonth || new Date().getMonth() + 1);
+            setValue('birthDate.day', formedDay || new Date().getDate());
             setValue('gender', data.gender || '');
             setValue('height', data.height || '');
             setValue('bodyType', data.bodyType || '');
@@ -168,11 +168,11 @@ const Privacy = () => {
             setValue('mbtiType', data.mbtiType || '');
             setValue('selfIntroduce', data.selfIntroduce || '');
         }
-        console.log('data',data)
+        console.log('data', data)
         const currentValues = getValues();
         console.log('currentValues', currentValues)
 
-    }, [data,setValue]);
+    }, [data, setValue]);
 
     return (
         <>
@@ -195,7 +195,7 @@ const Privacy = () => {
                                 <Card.Body>
                                     <Card.Title className={'mb-3'}>*개인정보 생성*</Card.Title>
                                     <Card.Text style={{lineHeight: '2rem'}}>
-                                        <Form onSubmit={handleSubmit(editPrivacy)}>
+                                        <Form onSubmit={data !== null ?  handleSubmit(editPrivacy) :  handleSubmit(createPrivacy)  }>
                                             <Form.Group className="mb-3">
                                                 <Form.Label>국적</Form.Label>
                                                 <Form.Select
