@@ -10,25 +10,6 @@ const Privacy = () => {
     const navigate = useNavigate();
 
     const [profileInfo, setProfileInfo] = useState({})
-    const [country, setCountry] = useState('')
-    const [bornArea, setBornArea] = useState('')
-    const [addressOfHome, setAddressOfHome] = useState('')
-    const [activityArea, setActivityArea] = useState('')
-    const [age, setAge] = useState('')
-    const [birth, setBirth] = useState('')
-    const [birthDate, setBirthDate] = useState({
-        year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-        day: new Date().getDate()
-    })
-    const [gender, setGender] = useState('')
-    const [height, setHeight] = useState('키를 입력하세요')
-    const [bodyType, setBodyType] = useState(6)
-    const [drinking, setDrinking] = useState('')
-    const [smoking, setSmoking] = useState('')
-    const [bloodType, setBloodType] = useState('')
-    const [mbtiType, setMbtiType] = useState('')
-    const [selfIntroduce, setSelfIntroduce] = useState('')
 
     const {isLoading, isSuccess, data, error} = usePrivacy()
 
@@ -167,8 +148,13 @@ const Privacy = () => {
             setValue('bloodType', data.bloodType || '');
             setValue('mbtiType', data.mbtiType || '');
             setValue('selfIntroduce', data.selfIntroduce || '');
+
+            setProfileInfo(data)
         }
         console.log('data', data)
+        console.log('profileInfo',profileInfo)
+        console.log('datalength', Object.keys(profileInfo))
+        console.log('profileInfo',profileInfo)
         const currentValues = getValues();
         console.log('currentValues', currentValues)
 
@@ -195,12 +181,10 @@ const Privacy = () => {
                                 <Card.Body>
                                     <Card.Title className={'mb-3'}>*개인정보 생성*</Card.Title>
                                     <Card.Text style={{lineHeight: '2rem'}}>
-                                        <Form onSubmit={data !== null ?  handleSubmit(editPrivacy) :  handleSubmit(createPrivacy)  }>
+                                        <Form onSubmit={profileInfo !== null ?  handleSubmit(editPrivacy) :  handleSubmit(createPrivacy)  }>
                                             <Form.Group className="mb-3">
                                                 <Form.Label>국적</Form.Label>
                                                 <Form.Select
-                                                    // value={data?.country}
-                                                    // onChange={(e) => setCountry(e.target.value)}
                                                     {...register('country', {required: '국적을 선택하세요'})}
                                                 >
                                                     <option value={''} disabled>국적을 선택하세요</option>
@@ -528,8 +512,6 @@ const Privacy = () => {
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="태어난 곳을 입력하세요"
-                                                    // value={data?.bornArea}
-                                                    // onChange={(e) => setBornArea(e.target.value)}
                                                     {...register('bornArea', {required: '태어난 곳을 입력하세요'})}
                                                 />
                                             </Form.Group>
@@ -539,8 +521,6 @@ const Privacy = () => {
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="주소를 입력하세요"
-                                                    // value={data?.addressOfHome}
-                                                    // onChange={(e) => setAddressOfHome(e.target.value)}
                                                     {...register('addressOfHome', {required: '주소를 입력하세요'})}
                                                 />
                                             </Form.Group>
@@ -550,8 +530,6 @@ const Privacy = () => {
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="활동지역을 입력하세요"
-                                                    // value={data?.activityArea}
-                                                    // onChange={(e) => setActivityArea(e.target.value)}
                                                     {...register('activityArea', {required: '활동지역을 입력하세요'})}
                                                 />
                                             </Form.Group>
@@ -561,12 +539,7 @@ const Privacy = () => {
                                                 <Row>
                                                     <Col>
                                                         <Form.Select
-                                                            // value={birthDate.year}
                                                             {...register('birthDate.year', {required: '연도를 선택하세요'})}
-                                                            // onChange={(e) => setBirthDate((prevBirthDate) => ({
-                                                            //     ...prevBirthDate,
-                                                            //     year: e.target.value
-                                                            // }))}
                                                         >
                                                             <option>년도</option>
                                                             {[...Array(100).keys()].map(i => (
@@ -579,12 +552,7 @@ const Privacy = () => {
                                                     년
                                                     <Col>
                                                         <Form.Select
-                                                            // value={birthDate.month}
                                                             {...register('birthDate.month', {required: '월을 선택하세요'})}
-                                                            // onChange={(e) => setBirthDate((prevBirthDate) => ({
-                                                            //     ...prevBirthDate,
-                                                            //     month: e.target.value
-                                                            // }))}
                                                         >
                                                             <option>월</option>
                                                             {[...Array(12).keys()].map(i => (
@@ -597,12 +565,7 @@ const Privacy = () => {
                                                     월
                                                     <Col>
                                                         <Form.Select
-                                                            // value={birthDate.day}
                                                             {...register('birthDate.day', {required: '일을 선택하세요'})}
-                                                            // onChange={(e) => setBirthDate((prevBirthDate) => ({
-                                                            //     ...prevBirthDate,
-                                                            //     day: e.target.value
-                                                            // }))}
                                                         >
                                                             <option>일</option>
                                                             {[...Array(31).keys()].map(i => (
@@ -615,25 +578,9 @@ const Privacy = () => {
                                                 </Row>
                                             </Form.Group>
 
-                                            {/*<Form.Group className="mb-3">*/}
-                                            {/*    <Form.Label>나이</Form.Label>*/}
-                                            {/*    <Form.Control*/}
-                                            {/*        // disabled={true}*/}
-                                            {/*        type="text"*/}
-                                            {/*        placeholder="나이를 입력하세요"*/}
-                                            {/*        value={age}*/}
-                                            {/*        onChange={(e) => setAge(*/}
-                                            {/*            new Date().getFullYear() - birth.year*/}
-                                            {/*            // Number(e.target.value)*/}
-                                            {/*        )}*/}
-                                            {/*    />*/}
-                                            {/*< /Form.Group>*/}
-
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label>성별</Form.Label>
                                                 <Form.Select
-                                                    // value={data?.gender}
-                                                    // onChange={(e) => setGender(e.target.value)}
                                                     {...register('gender', {required: '성별을 선택하세요'})}
                                                 >
                                                     <option value={''} disabled>
@@ -650,8 +597,6 @@ const Privacy = () => {
                                                 <Form.Control
                                                     type="number"
                                                     placeholder="키를 입력하세요"
-                                                    // value={data?.height}
-                                                    // onChange={(e) => setHeight(Number(e.target.value))}
                                                     {...register('height', {required: '키를 입력하세요'})}
                                                 />
                                             </Form.Group>
@@ -659,10 +604,7 @@ const Privacy = () => {
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label>체형</Form.Label>
                                                 <Form.Select
-                                                    // value={data?.bodyType}
-                                                    // onChange={(e) => setBodyType(Number(e.target.value))}
                                                     {...register('bodyType', {required: '체형을 선택하세요'})}
-                                                    // defaultValue={data?.bodyType || ''}
                                                 >
                                                     <option value={''} disabled>
                                                         체형을 선택하세요
@@ -680,8 +622,6 @@ const Privacy = () => {
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label>음주</Form.Label>
                                                 <Form.Select
-                                                    // value={data?.drinking}
-                                                    // onChange={(e) => setDrinking(e.target.value)}
                                                     {...register('drinking', {required: '음주정도를 선택하세요'})}
                                                 >
                                                     <option value={''} disabled>
@@ -697,8 +637,6 @@ const Privacy = () => {
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label>흡연</Form.Label>
                                                 <Form.Select
-                                                    // value={data?.smoking}
-                                                    // onChange={(e) => setSmoking(JSON.parse(e.target.value))}
                                                     {...register('smoking', {required: '흡연 여부를 선택하세요'})}
                                                 >
                                                     <option value={''} disabled>
@@ -712,8 +650,6 @@ const Privacy = () => {
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                                 <Form.Label>혈액형</Form.Label>
                                                 <Form.Select
-                                                    // value={data?.bloodType}
-                                                    // onChange={(e) => setBloodType(e.target.value)}
                                                     {...register('bloodType', {required: '혈액형을 선택하세요'})}
                                                 >
                                                     <option value={''} disabled>
@@ -731,8 +667,6 @@ const Privacy = () => {
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="MBTI 를 입력하세요"
-                                                    // value={data?.mbtiType}
-                                                    // onChange={(e) => setMbtiType(e.target.value)}
                                                     {...register('mbtiType', {required: 'MBTI를 입력하세요'})}
                                                 />
                                             </Form.Group>
@@ -743,18 +677,16 @@ const Privacy = () => {
                                                     as="textarea"
                                                     rows={3}
                                                     placeholder="자기소개를 입력하세요"
-                                                    // value={data?.selfIntroduce}
-                                                    // onChange={(e) => setSelfIntroduce(e.target.value)}
                                                     {...register('selfIntroduce', {required: '자기소개를 입력하세요'})}
                                                 />
                                             </Form.Group>
                                             <Button
                                                 className={'mt-3 mb-5'}
                                                 style={{width: '100%', height: '3rem'}}
-                                                // onClick={Object.keys(profileInfo).length === 0 ? createPrivacy : editPrivacy}
                                                 type='submit'
                                             >개인정보
                                                 {Object.keys(profileInfo).length === 0 ? ' 생성하기' : ' 업데이트'}
+                                                {console.log('ob',Object.keys(profileInfo))}
                                             </Button>
                                         </Form>
                                     </Card.Text>

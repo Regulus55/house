@@ -20,12 +20,6 @@ const getProfileInfo = async () => {
         console.log("profileInfo", data.body);
         // const {agreeOfMarketing, etc} = data.body.consent;
         return data.body
-
-
-        //     setCheck4(agreeOfMarketing);
-        //     setCheck5(etc);
-
-
     } catch (err) {
         console.log("겟인포 에러", err);
     }

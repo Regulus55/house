@@ -14,32 +14,6 @@ const Profile = () => {
 
     const {isLoading, isSuccess, data, error} = useProfile()
 
-    // const getProfileInfo = async () => {
-    //   try {
-    //     const token = localStorage.getItem("token");
-    //     const config = {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     };
-    //     const result = await axios.get('http://localhost:7070/api/auth', config)
-    //     console.log('profileInfo', result.data.body)
-    //     setProfileInfo(result.data.body)
-    //     const { data } = await axios.get(
-    //       "http://localhost:7070/api/auth",
-    //       config
-    //     );
-    //     console.log("profileInfo", data.body);
-    //     const { agreeOfMarketing, etc } = data.body.consent;
-    //
-    //     setProfileInfo(data.body);
-    //     setCheck4(agreeOfMarketing);
-    //     setCheck5(etc);
-    //   } catch (err) {
-    //     console.log("겟인포 에러", err);
-    //   }
-    // };
-
     const editConsent = async () => {
         // 약관동의 내용 수정 함수
         try {
@@ -74,6 +48,8 @@ const Profile = () => {
             setCheck4(data?.consent?.agreeOfMarketing);
             setCheck5(data?.consent?.etc);
         }
+
+        setProfileInfo(data || { profile: null }); // data 가 있으면 setProfileInfo,  data 가 undefined 면 그냥 null 로
     }, [data]);
 
     return (
@@ -141,7 +117,9 @@ const Profile = () => {
                                                     // className="mx-auto"
                                                 >
                                                     개인정보
-                                                    {profileInfo.profile === null  ? " 생성" : " 업데이트"}
+                                                    {profileInfo.profile == null  ? ' 생성하기' : ' 업데이트'}
+                                                    {/*{Object.keys(profileInfo)?.length == 0 ? ' 생성' : ' 업데이트'}*/}
+                                                    {console.log('profileinfos', profileInfo.profile)}
                                                 </Button>
 
                                                 <Button
