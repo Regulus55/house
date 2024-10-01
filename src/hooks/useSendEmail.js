@@ -14,7 +14,7 @@ const useSendEmail = () => {
         onSuccess: (data) => {
         // console.log('===sendEmail의Data',data)
         //     ^^ success, code:201 같은 데이터임
-            alert('메일보냈음')
+            alert('인증메일 발송 완료')
         }
     })
 }

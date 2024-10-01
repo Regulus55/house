@@ -72,24 +72,6 @@ const Signup = () => {
     console.log('status======', sendEmailStatus)
     // 이 항목들은 스웨거 api 의 리퀘스트 바디에있는 항목들을 참고해서 만듦
 
-    // const sendEmailHandler = async (e) => {
-    //     // ^^이메일 보내는 핸들러,  url이랑 userInput (email) 보낸다,   if 맞으면 메일 확인하라고 알람 보낸다
-    //     try {
-    //         const url = "http://localhost:7070/api/auth/email/send";
-    //         const userInput = {
-    //             email: email,
-    //         };
-    //         const { data, status } = await axios.post(url, userInput);
-    //         if (status === 201) {
-    //             alert("please check your email");
-    //             setEmailCheckEnable(true);
-    //         }
-    //     } catch (err) {
-    //         console.log("---", err);
-    //     }
-    // };
-
-
     const sendEmailHandler = async (values) => {
         // console.log('=======', values);
         const {email} = values
@@ -115,9 +97,9 @@ const Signup = () => {
         if (!values.email || !values.password || !values.phone) {
             alert('빈칸을 채워주세요')
         } else if (!values.consent.overTwenty || !values.consent.agreeOfTerm || !values.consent.agreeOfPersonalInfo) {
-            alert('필수항목 동의해주세요')
+            alert('필수항목에 동의해주세요')
         } else if (values.password !== values.passwordcheck) {
-            alert('비번이 일치하지 않아요')
+            alert('비밀번호가 일치하지 않아요')
         } else {
             await createUserMutate({
                 userName: values.userName,
@@ -130,77 +112,6 @@ const Signup = () => {
             alert('회원가입완료')
         }
     }
-
-    // const {isLoading, mutateAsync, data, error} = useCreateUser()
-    // console.log('data======', data)
-    //
-    // const submitHandler = async (values) => {
-    //     console.log('======', values)
-    //     await mutateAsync(values)
-    // }
-    // 위에꺼 센드핸들러는 다음에
-
-    // const checkEmailHandler = async (e) => {
-    //     try {
-    //         const userInput = {
-    //             email: email,
-    //             code: code,
-    //         };
-    //         // ^^api 에서 요구하는게 email 이랑 code 니까  userInput 에 이메일이랑 코드를 넣는다
-    //         const url = "http://localhost:7070/api/auth/email/check";
-    //         const { data, status } = await axios.post(url, userInput);
-    //         if (status === 201) {
-    //             alert("code ok");
-    //             setEmailCheckEnable(false);
-    //             setSubmitEnable(false);
-    //         }
-    //         // ^^if 정상이면 setEmailEnable 을 false 로 작동시켜 화면에서 안보이게 한다
-    //     } catch (err) {
-    //         console.log("---", err);
-    //     }
-    // };
-    //
-    // const submitHandler = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         if (password !== passwordcheck) {
-    //             alert("please ckeck password and confirm your password");
-    //             return;
-    //             // 패스워드 체크했을때 일치않으면 alert 으로 알리고 return 으로 빠져나온다
-    //         }
-    //         if (!(check1 === true && check2 === true && check3 === true)) {
-    //             alert("필수항목을 체크해주세요");
-    //         }
-    //         if (email) {
-    //             setEmailDisable(true);
-    //         }
-    //         const userInput = {
-    //             userName: username,
-    //             nickName: nickname,
-    //             email: email,
-    //             password: password,
-    //             phone: phonenumber,
-    //             consent: {
-    //                 overTwenty: check1,
-    //                 agreeOfTerm: check2,
-    //                 agreeOfPersonalInfo: check3,
-    //                 agreeOfMarketing: check4,
-    //                 etc: check5,
-    //             },
-    //             // ^ 스웨거api 의 폼 항목대로 userInput 을 만들었다
-    //         };
-    //         const url = "http://localhost:7070/api/auth/signup";
-    //         const { data, status } = await axios.post(url, userInput);
-    //         // ^axios.post 로 url 과 userInput 을 보낸다, 그리고 밑에 if 항목으로 검사한다
-    //         if (status === 201) {
-    //             alert("회원가입 완료");
-    //             navigate("/login");
-    //             // if 회원가입 성공시 (201) navigate 이용해서 로그인 페이지로 넘어감
-    //         }
-    //     } catch (err) {
-    //         console.log("---", err);
-    //     }
-    // };
 
     const agreements = [
         {id: 1, label: "14세 이상입니다(필수)", key: "overTwenty"},
@@ -264,30 +175,13 @@ const Signup = () => {
     };
 
 
-    // const overTwenty = watch('consent.overTwenty', false);
-    // const agreeOfTerm = watch('consent.agreeOfTerm', false);
-    // const agreeOfPersonalInfo = watch('consent.agreeOfPersonalInfo', false);
-    // const agreeOfMarketing = watch('consent.agreeOfMarketing', false);
-    // const etc = watch('consent.etc', false);
-
-    // useEffect(() => {
-    //     if (!(check1 === true && check2 === true && check3 === true)) {
-    //         setSubmitEnable(true);
-    //     } else setSubmitEnable(false);
-    // });
-
     if (sendEmailStatus === 'pending') {
         return <LoadingBar/>
     }
-    // if (createUserStatus === 'pending') {
-    //     return <LoadingBar/>
-    // }
 
     return (
 
         <Container>
-
-            {/*{ === true ? (*/}
             <>
                 <Row className={"mt-5"}>
                     <Col/>

@@ -56,7 +56,7 @@ const Profile = () => {
             const url = "http://localhost:7070/api/consent";
             const {data, status} = await axios.put(url, userInput, config);
             if (status === 200) {
-                alert("Agree to terms and conditions update complete");
+                alert("약관 업데이트 동의 완료");
                 return;
             }
         } catch (e) {
