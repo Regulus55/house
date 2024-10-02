@@ -23,9 +23,9 @@ React, javascript(es6), react-bootstrap, styled-components,react-query, React-ho
 
 프로필 페이지
 
-![프로필1.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/686f533d-fa18-4922-8836-b39ce4e40318/%ED%94%84%EB%A1%9C%ED%95%841.png)
+![프로필1](https://github.com/user-attachments/assets/789bacdc-d587-400c-a418-4d328b5fdb8a)
 
-![프로필2.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/e8a17940-c891-48f2-8498-ed964f7a343f/%ED%94%84%EB%A1%9C%ED%95%842.png)
+![프로필2](https://github.com/user-attachments/assets/09a6c52f-a798-4f98-b652-362750fde174)
 
 - 회원가입 시 사용자가 입력한 정보를 서버에 업데이트, 이후 서버에서 사용자 정보를 받아옴
 - 서버에서 받은 사용자 정보를 react-bootstrap 의 Card 컴포넌트를 이용하여 화면에 보여줌
@@ -33,16 +33,16 @@ React, javascript(es6), react-bootstrap, styled-components,react-query, React-ho
 
 회원가입 페이지
 
-![인증완료.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/e2a26abc-bd99-4ea2-9e26-0cbeab4bf618/%EC%9D%B8%EC%A6%9D%EC%99%84%EB%A3%8C.png)
+![인증완료](https://github.com/user-attachments/assets/8d4ca2f5-fb3c-4dc9-b1f5-056398519a72)
 
-![가입완료.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/34232bcf-418b-45e8-999b-8ed751cf011d/%EA%B0%80%EC%9E%85%EC%99%84%EB%A3%8C.png)
+![가입완료](https://github.com/user-attachments/assets/e9fe2800-9a44-4bf2-9251-f4c573a4023a)
 
 - react-hook-form 과 react-query 를 이용하여 사용자 입력값을 서버로 전달
 - 회원가입 시 이메일 인증 후 성공시 다음단계 진행 가능
 
-![인증.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/9b7d54b5-3e8b-4f1e-a7b2-eeab4294f211/%EC%9D%B8%EC%A6%9D.png)
+![인증](https://github.com/user-attachments/assets/98e67ac9-b434-4542-8233-99e4a3a962da)
 
-![약관.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/8df1c033-10df-41f8-8cde-75214c3903fc/%EC%95%BD%EA%B4%80.png)
+![약관](https://github.com/user-attachments/assets/478bcb65-4999-4cfb-a4bd-8cef0bd5a1f4)
 
 - 인증메일 발송 로딩시간에 isLoading 기능으로 로딩 페이지 구현하여 사용자 경험 
 향상
@@ -50,11 +50,12 @@ React, javascript(es6), react-bootstrap, styled-components,react-query, React-ho
 - 회원가입 이후 약관 필수항목 제외 
 선택항목 동의여부 수정 가능
 
+
 개인정보입력 페이지
 
-![개정전.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/bbe4db0e-b1dc-48a5-a230-3fd72caa2a1f/%EA%B0%9C%EC%A0%95%EC%A0%84.png)
+![개정전](https://github.com/user-attachments/assets/b023ea59-69aa-4fc9-bb8c-e0908b5e18eb)
 
-![개정완.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/3e25344b-115e-49a2-bc98-3b94cdef87bf/%EA%B0%9C%EC%A0%95%EC%99%84.png)
+![개정완](https://github.com/user-attachments/assets/90404971-7836-4d85-ad7c-488b0dfe83bb)
 
 - 개인정보 입력 전에 placeholder 표시, 이후 사용자가 데이터를 입력한 후엔 서버에서 받아온
     
@@ -63,9 +64,9 @@ React, javascript(es6), react-bootstrap, styled-components,react-query, React-ho
 
 시퀀스 다이어그램
 
-![시퀀스1.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/a405efdb-91c4-4ad4-bc35-b60a8cef87f2/%EC%8B%9C%ED%80%80%EC%8A%A41.png)
+![시퀀스1 PNG](https://github.com/user-attachments/assets/56d09a51-0cd9-4e96-886f-af292d6be886)
 
-![시퀀스2.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/715e52aa-3cbf-4c9b-bb35-e80f884012a0/5ef69323-e852-4493-b790-90341b2cf361/%EC%8B%9C%ED%80%80%EC%8A%A42.png)
+![시퀀스2 PNG](https://github.com/user-attachments/assets/2d659aad-4bc4-446c-a643-ffd3598eff4d)
 
 - react-query 의 useQuery, useMutation 등의 커스텀 훅을 활용하여 서버 데이터의 패칭, 캐싱, 동기화 및 상태 관리를 효율적으로 수행
 
