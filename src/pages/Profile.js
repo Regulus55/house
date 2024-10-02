@@ -76,6 +76,7 @@ const Profile = () => {
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
+                                    border: "2px solid #b3b3b3"
                                 }}
                                 className="mx-auto mb-4"
                             >
@@ -145,6 +146,7 @@ const Profile = () => {
                                     flexDirection: "column",
                                     alignItems: "center",
                                     marginBottom: "3rem",
+                                    border: "2px solid #b3b3b3"
                                 }}
                                 // className="mx-auto"
                             >
@@ -161,34 +163,34 @@ const Profile = () => {
                                             <Form.Check
                                                 type={type}
                                                 id={"나이약관"}
-                                                label={"14세 이상입니다"}
+                                                label={"14세 이상입니다 (필수)"}
                                                 checked={true}
                                             />
 
                                             <Form.Check
                                                 type={type}
                                                 id={"이용약관"}
-                                                label={"이용약관"}
+                                                label={"이용약관 (필수)"}
                                                 checked={true}
                                             />
 
                                             <Form.Check
                                                 type={type}
                                                 id={"개인정보"}
-                                                label={"개인정보수집 및 이용동의"}
+                                                label={"개인정보수집 및 이용동의 (필수)"}
                                                 checked={true}
                                             />
 
                                             <Form.Check // prettier-ignore
                                                 id={"마케팅"}
-                                                label={"개인정보 마케팅 활용 동의"}
+                                                label={"개인정보 마케팅 활용 동의 (선택)"}
                                                 checked={check4}
                                                 onChange={(e) => setCheck4(e.target.checked)}
                                             />
 
                                             <Form.Check
                                                 id={"이벤트"}
-                                                label={"이벤트, 특가 알림 및 SMS 등 수신"}
+                                                label={"이벤트, 특가 알림 및 SMS 등 수신 (선택)"}
                                                 checked={check5}
                                                 onChange={(e) => setCheck5(e.target.checked)}
                                             />

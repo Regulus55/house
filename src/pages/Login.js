@@ -15,50 +15,11 @@ const Login = () => {
         register, handleSubmit, formState: {errors}
     } = useForm()
 
-
-    // const token = localStorage.getItem("token");
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    // const submitHandler = async (e) => {
-    //   e.preventDefault();
-    //   try {
-    //     const userInput = {
-    //       email: email,
-    //       password: password,
-    //     };
-    //     console.log(userInput);
-    //     const url = "http://localhost:7070/api/auth/login"
-    //     const { data, status } = await axios.post(url, userInput);
-    //     console.log('+++++++++++++',status)
-    //     if (status === 200) {
-    //       localStorage.setItem("token", data.token);
-    //       navigate("/profile");
-    //     }
-    //   } catch (err) {
-    //     // if (
-    //     //   err.response.data.message.includes("Wrong") ||
-    //     //   err.response.data.message.includes("User")
-    //     // ) {
-    //     //   alert("잘못된 아이디 혹은 비밀번호 입니다");
-    //     //   console.log("---", err);
-    //     // } else {
-    //       console.log("로그인 에러", err);
-    //     // }
-    //   }
-    // };
-
     const {isLoading, mutateAsync, data, error} = useLoginUser()
-    // console.log('++++loginPageData',data.token)
 
     const submitHandler = async (values) => {
         console.log("+++values", values)
         await mutateAsync(values)
-        // await localStorage.setItem("token", data.token)
-        //  if(localStorage.getItem('token')){
-        //       navigate('/profile')
-        //  }
     }
 
     const socialInfos = [
@@ -78,13 +39,6 @@ const Login = () => {
             func: () => console.log('naver')
         }
     ]
-
-    //
-    // useEffect(() => {
-    //   // if (token !== null) {
-    //   //   navigate("/profile");
-    //   // }
-    // },[]);
 
     const socialLogin = () => {
         window.location.href = 'http://localhost:7070/api/auth/google'
@@ -178,28 +132,31 @@ const Login = () => {
                                     justifyContent: "center",
                                 }}
                             >
-                                <div style={{display: 'flex', flexDirection: 'column', alignItems: "center"}}>
-                                    <div className='mb-3' style={{fontSize: '0.8rem'}}>SNS계정으로 간편 로그인/회원가입</div>
-                                    <div className='mb-4'>
-                                        {socialInfos?.map((social) => (
-                                            <button onClick={social.func} style={{border: 'none', background: "white"}}>
-                                                <img
-                                                    src={social.img}
-                                                    style={{width: "50px", height: "50px", margin: '0 0.6rem 0 0.6rem'}}
-                                                    alt={social.title}
-                                                />
-                                            </button>
-                                        ))}
-                                    </div>
-
-                                    <div>비회원으로 주문 조회하기</div>
-                                </div>
                             </Col>
                             <Col/>
                         </Row>
                     </Form>
+
+                    {/*소셜로그인*/}
+                    <div style={{display: 'flex', flexDirection: 'column', alignItems: "center"}}>
+                        <div className='mb-3' style={{fontSize: '0.8rem'}}>SNS계정으로 간편 로그인/회원가입</div>
+                        <div className='mb-4'>
+                            {socialInfos?.map((social) => (
+                                <button onClick={social.func} style={{border: 'none', background: "white"}}>
+                                    <img
+                                        src={social.img}
+                                        style={{width: "50px", height: "50px", margin: '0 0.6rem 0 0.6rem'}}
+                                        alt={social.title}
+                                    />
+                                </button>
+                            ))}
+                        </div>
+
+                        {/*비회원주문*/}
+                        <div>비회원으로 주문 조회하기</div>
+                    </div>
                 </Col>
-                <Col></Col>
+                <Col/>
             </Row>
 
             <Row/>
